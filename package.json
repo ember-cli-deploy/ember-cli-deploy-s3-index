@@ -1,7 +1,7 @@
 {
   "name": "ember-cli-deploy-s3-index",
   "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "Ember CLI Deploy plugin to deploy ember-cli's bootstrap index file to S3.",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -11,7 +11,7 @@
     "start": "ember server",
     "test": "ember try:testall"
   },
-  "repository": "",
+  "repository": "https://github.com/LevelbossMike/ember-cli-deploy-s3-index",
   "engines": {
     "node": ">= 0.10.0"
   },
@@ -38,10 +38,13 @@
     "ember-try": "0.0.6"
   },
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "ember-cli-deploy-plugin"
   ],
   "dependencies": {
-    "ember-cli-babel": "^5.1.3"
+    "aws-sdk": "^2.1.48",
+    "ember-cli-babel": "^5.1.3",
+    "ember-cli-deploy-plugin": "^0.1.3"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"

@@ -26,7 +26,8 @@ module.exports = {
           return context.project.name() + ':index';
         },
         revisionKey: function(context) {
-          return context.commandOptions.revision || context.revisionKey;
+          var revisionKey = context.revisionData && context.revisionData.revisionKey;
+          return context.commandOptions.revision || revisionKey;
         }
       },
       requiredConfig: ['accessKeyId', 'secretAccessKey', 'bucket'],

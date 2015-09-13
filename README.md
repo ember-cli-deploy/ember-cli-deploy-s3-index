@@ -107,7 +107,7 @@ $ ember deploy --activate=true
 - Running the `deploy:activate` command:
 
 ```bash
-$ ember deploy:activate <revision-key>
+$ ember deploy:activate --revision <revision-key>
 ```
 
 - Setting the `activateOnDeploy` flag in `deploy.js`

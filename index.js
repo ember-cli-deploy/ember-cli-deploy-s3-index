@@ -52,8 +52,31 @@ module.exports = {
           revisionKey = this._buildIndexUploadKey();
         }
 
-        var availableRevisions = context.revisions.map(function(r) { return r.revision; });
+        return this._fetchRevisionsData()
+          .then(this._createRevisionsList)
+          .then(this._activateRevision.bind(this, revisionKey));
+      },
 
+      fetchRevisions: function(context) {
+        return this._fetchRevisionsData();
+      },
+
+      _fetchRevisionsData: function() {
+        var s3 = new S3({ plugin: this })
+
+        return s3.fetchRevisions()
+          .then(function(revisions) {
+            return { revisions: revisions };
+          });
+      },
+
+      _createRevisionsList: function(revisionsData) {
+        var revisions = revisionsData.revisions;
+
+        return revisions.map(function(r) { return r.revision; });
+      },
+
+      _activateRevision: function(revisionKey, availableRevisions) {
         this.log('Activating revision `' + revisionKey + '`');
 
         if (availableRevisions.indexOf(revisionKey) > -1) {
@@ -62,17 +85,6 @@ module.exports = {
         } else {
           return Promise.reject("REVISION NOT FOUND!"); // see how we should handle a pipeline failure
         }
-
-      },
-
-      fetchRevisions: function(context) {
-        var s3 = new S3({ plugin: this })
-
-        return s3.fetchRevisions()
-          .then(function(revisions) {
-            return { revisions: revisions };
-          });
-        ;
       },
 
       _buildIndexUploadKey: function() {

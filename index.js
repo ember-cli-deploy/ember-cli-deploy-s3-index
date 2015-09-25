@@ -28,6 +28,9 @@ module.exports = {
         revisionKey: function(context) {
           var revisionKey = context.revisionData && context.revisionData.revisionKey;
           return context.commandOptions.revision || revisionKey;
+        },
+        s3Client: function(context) {
+          return context.s3Client; // if you want to provide your own S3 client to be used instead of one from aws-sdk
         }
       },
       requiredConfig: ['accessKeyId', 'secretAccessKey', 'bucket'],

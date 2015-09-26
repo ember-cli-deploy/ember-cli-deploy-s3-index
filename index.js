@@ -49,15 +49,8 @@ module.exports = {
       },
 
       activate: function(context) {
-        var revisionKey = this.readConfig('revisionKey');
-        var keyPrefix   = this.readConfig('keyPrefix');
-
-        if (revisionKey.indexOf(keyPrefix) === -1) {
-          revisionKey = this._buildIndexUploadKey();
-        }
-
         return this._fetchRevisionsData()
-          .then(this._activateRevision.bind(this, revisionKey));
+          .then(this._activateRevision.bind(this));
       },
 
       fetchRevisions: function(context) {
@@ -73,13 +66,15 @@ module.exports = {
         return s3.fetchRevisions();
       },
 
-      _activateRevision: function(revisionKey, availableRevisions) {
+      _activateRevision: function(availableRevisions) {
+        var revisionKey = this.readConfig('revisionKey');
+
         this.log('Activating revision `' + revisionKey + '`');
 
         var found = availableRevisions.map(function(element) { return element.revision; }).indexOf(revisionKey);
         if (found >= 0) {
-          return this._overwriteCurrentIndex(revisionKey)
-            .then(this._updateCurrentRevisionPointer.bind(this, revisionKey));
+          return this._overwriteCurrentIndex()
+            .then(this._updateCurrentRevisionPointer.bind(this));
         } else {
           return Promise.reject("REVISION NOT FOUND!"); // see how we should handle a pipeline failure
         }
@@ -99,18 +94,20 @@ module.exports = {
           });
       },
 
-      _updateCurrentRevisionPointer: function(newRevisionKey) {
-        var s3                        = new S3({ plugin: this })
+      _updateCurrentRevisionPointer: function() {
+        var s3                        = new S3({ plugin: this });
+        var revisionKey               = this.readConfig('revisionKey');
         var currentRevisionIdentifier = this.readConfig('currentRevisionIdentifier');
 
-        return s3.upload(currentRevisionIdentifier, JSON.stringify({ revision: newRevisionKey }));
+        return s3.upload(currentRevisionIdentifier, JSON.stringify({ revision: revisionKey }));
       },
 
-      _overwriteCurrentIndex: function(newRevisionKey) {
-        var s3     = new S3({ plugin: this });
-        var bucket = this.readConfig('bucket');
+      _overwriteCurrentIndex: function() {
+        var s3        = new S3({ plugin: this });
+        var bucket    = this.readConfig('bucket');
+        var uploadKey = this._buildIndexUploadKey();
 
-        return s3.overwriteCurrentIndex(newRevisionKey, bucket);
+        return s3.overwriteCurrentIndex(uploadKey, bucket);
       }
     });
 

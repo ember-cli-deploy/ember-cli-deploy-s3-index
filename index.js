@@ -57,33 +57,27 @@ module.exports = {
         }
 
         return this._fetchRevisionsData()
-          .then(this._createRevisionsList)
           .then(this._activateRevision.bind(this, revisionKey));
       },
 
       fetchRevisions: function(context) {
-        return this._fetchRevisionsData();
+        return this._fetchRevisionsData()
+          .then(function(revisions) {
+            context.revisions = revisions;
+          });
       },
 
       _fetchRevisionsData: function() {
         var s3 = new S3({ plugin: this })
 
-        return s3.fetchRevisions()
-          .then(function(revisions) {
-            return { revisions: revisions };
-          });
-      },
-
-      _createRevisionsList: function(revisionsData) {
-        var revisions = revisionsData.revisions;
-
-        return revisions.map(function(r) { return r.revision; });
+        return s3.fetchRevisions();
       },
 
       _activateRevision: function(revisionKey, availableRevisions) {
         this.log('Activating revision `' + revisionKey + '`');
 
-        if (availableRevisions.indexOf(revisionKey) > -1) {
+        var found = availableRevisions.map(function(element) { return element.revision; }).indexOf(revisionKey);
+        if (found >= 0) {
           return this._overwriteCurrentIndex(revisionKey)
             .then(this._updateCurrentRevisionPointer.bind(this, revisionKey));
         } else {

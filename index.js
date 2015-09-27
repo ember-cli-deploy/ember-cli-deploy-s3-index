@@ -18,7 +18,6 @@ module.exports = {
       defaultConfig: {
         region: 'us-east-1',
         filePattern: 'index.html',
-        currentRevisionIdentifier: "current.json",
         distDir: function(context) {
           return context.distDir;
         },
@@ -49,43 +48,34 @@ module.exports = {
       },
 
       activate: function(context) {
-        var revisionKey = this.readConfig('revisionKey');
-        var keyPrefix   = this.readConfig('keyPrefix');
-
-        if (revisionKey.indexOf(keyPrefix) === -1) {
-          revisionKey = this._buildIndexUploadKey();
-        }
-
         return this._fetchRevisionsData()
-          .then(this._createRevisionsList)
-          .then(this._activateRevision.bind(this, revisionKey));
+          .then(this._activateRevision.bind(this));
       },
 
       fetchRevisions: function(context) {
-        return this._fetchRevisionsData();
+        return this._fetchRevisionsData()
+          .then(function(revisions) {
+            context.revisions = revisions;
+          });
       },
 
       _fetchRevisionsData: function() {
         var s3 = new S3({ plugin: this })
 
-        return s3.fetchRevisions()
-          .then(function(revisions) {
-            return { revisions: revisions };
-          });
+        return s3.fetchRevisions();
       },
 
-      _createRevisionsList: function(revisionsData) {
-        var revisions = revisionsData.revisions;
+      _activateRevision: function(availableRevisions) {
+        var revisionKey = this.readConfig('revisionKey');
+        var s3          = new S3({ plugin: this });
+        var bucket      = this.readConfig('bucket');
+        var uploadKey   = this._buildIndexUploadKey();
 
-        return revisions.map(function(r) { return r.revision; });
-      },
-
-      _activateRevision: function(revisionKey, availableRevisions) {
         this.log('Activating revision `' + revisionKey + '`');
 
-        if (availableRevisions.indexOf(revisionKey) > -1) {
-          return this._overwriteCurrentIndex(revisionKey)
-            .then(this._updateCurrentRevisionPointer.bind(this, revisionKey));
+        var found = availableRevisions.map(function(element) { return element.revision; }).indexOf(revisionKey);
+        if (found >= 0) {
+          return s3.overwriteCurrentIndex(uploadKey, bucket);
         } else {
           return Promise.reject("REVISION NOT FOUND!"); // see how we should handle a pipeline failure
         }
@@ -104,20 +94,6 @@ module.exports = {
             return buffer.toString();
           });
       },
-
-      _updateCurrentRevisionPointer: function(newRevisionKey) {
-        var s3                        = new S3({ plugin: this })
-        var currentRevisionIdentifier = this.readConfig('currentRevisionIdentifier');
-
-        return s3.upload(currentRevisionIdentifier, JSON.stringify({ revision: newRevisionKey }));
-      },
-
-      _overwriteCurrentIndex: function(newRevisionKey) {
-        var s3     = new S3({ plugin: this });
-        var bucket = this.readConfig('bucket');
-
-        return s3.overwriteCurrentIndex(newRevisionKey, bucket);
-      }
     });
 
     return new DeployPlugin();

@@ -18,7 +18,6 @@ module.exports = {
       defaultConfig: {
         region: 'us-east-1',
         filePattern: 'index.html',
-        currentRevisionIdentifier: "current.json",
         distDir: function(context) {
           return context.distDir;
         },
@@ -68,13 +67,15 @@ module.exports = {
 
       _activateRevision: function(availableRevisions) {
         var revisionKey = this.readConfig('revisionKey');
+        var s3          = new S3({ plugin: this });
+        var bucket      = this.readConfig('bucket');
+        var uploadKey   = this._buildIndexUploadKey();
 
         this.log('Activating revision `' + revisionKey + '`');
 
         var found = availableRevisions.map(function(element) { return element.revision; }).indexOf(revisionKey);
         if (found >= 0) {
-          return this._overwriteCurrentIndex()
-            .then(this._updateCurrentRevisionPointer.bind(this));
+          return s3.overwriteCurrentIndex(uploadKey, bucket);
         } else {
           return Promise.reject("REVISION NOT FOUND!"); // see how we should handle a pipeline failure
         }
@@ -93,22 +94,6 @@ module.exports = {
             return buffer.toString();
           });
       },
-
-      _updateCurrentRevisionPointer: function() {
-        var s3                        = new S3({ plugin: this });
-        var revisionKey               = this.readConfig('revisionKey');
-        var currentRevisionIdentifier = this.readConfig('currentRevisionIdentifier');
-
-        return s3.upload(currentRevisionIdentifier, JSON.stringify({ revision: revisionKey }));
-      },
-
-      _overwriteCurrentIndex: function() {
-        var s3        = new S3({ plugin: this });
-        var bucket    = this.readConfig('bucket');
-        var uploadKey = this._buildIndexUploadKey();
-
-        return s3.overwriteCurrentIndex(uploadKey, bucket);
-      }
     });
 
     return new DeployPlugin();

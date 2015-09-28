@@ -64,15 +64,15 @@ The region your bucket is located in.
 
 *Default:* `'us-east-1'`
 
-### currentRevisionIdentifier
+### prefix
 
-To be able to display an indicator in the revisions list that points to the current active revision this plugin uploads a json file that identifies the currently deployed revision to your bucket. You can change the file-name of this file with this option.
+A directory within the `bucket` that the files should be uploaded in to.
 
-*Default:* `'current.json'`
+*Default:* `''`
 
 ### filePattern
 
-A file matching this pattern will be uploaded to S3.
+A file matching this pattern will be uploaded to S3. The active key in S3 will be a combination of the `bucket`, `prefix`, `filePattern`. The versioned keys will have `revisionKey` appended.
 
 *Default:* `'index.html'`
 
@@ -82,17 +82,19 @@ The root directory where the file matching `filePattern` will be searched for. B
 
 *Default:* `context.distDir`
 
-### keyPrefix
-
-The prefix to be used for the key under which file will be uploaded to S3. The key will be a combination of the `keyPrefix` and the `revisionKey`. By default this option will use the `project.name()` property from the deployment context.
-
-*Default:* `context.project.name() + ':index'`
-
 ### revisionKey
 
 The unique revision number for the version of the file being uploaded to S3. The key will be a combination of the `keyPrefix` and the `revisionKey`. By default this option will use either the `revisionKey` passed in from the command line or the `revisionKey` property from the deployment context.
 
 *Default:* `context.commandLineArgs.revisionKey || context.revisionKey`
+
+### s3Client
+
+The underlying S3 library used to upload the files to S3. This allows the user to use the default upload client provided by this plugin but switch out the underlying library that is used to actually send the files.
+
+The client specified MUST implement functions called `getObject` and `putObject`.
+
+*Default:* the default S3 library is `aws-sdk`
 
 ### How do I activate a revision?
 
@@ -120,16 +122,16 @@ ENV.pipeline {
 
 ### What does activation do?
 
-When *ember-cli-deploy-s3-index* uploads a file to S3, it uploads it under the key defined by a combination of the two config properties `keyPrefix` and `revisionKey`.
+When *ember-cli-deploy-s3-index* uploads a file to S3, it uploads it under the key defined by a combination of the two config properties `filePattern` and `revisionKey`.
 
-So, if the `keyPrefix` was configured to be `deploy-test:index` and there had been a few revisons deployed, then your bucket might look something like this:
+So, if the `filePattern` was configured to be `index.html` and there had been a few revisons deployed, then your bucket might look something like this:
 
 ![s3-index-bucket](http://i.imgur.com/wmiaYyK.png)
 
 Activating a revision would copy the content of the passed revision to `index.html` which is used to host your ember application via the [static web hosting](https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html) feature built into S3.
 
 ```bash
-$ ember deploy:activate --revision deploy-test:index:18613f3a225d29ec065240a1499f8545
+$ ember deploy:activate --revision 18613f3a225d29ec065240a1499f8545
 ```
 
 ### When does activation occur?

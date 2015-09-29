@@ -122,16 +122,24 @@ ENV.pipeline {
 
 ### What does activation do?
 
-When *ember-cli-deploy-s3-index* uploads a file to S3, it uploads it under the key defined by a combination of the two config properties `filePattern` and `revisionKey`.
+When *ember-cli-deploy-s3-index* uploads a file to S3, it uploads it under the key defined by a combination of the four config properties `bucket`, `prefix`, `filePattern` and `revisionKey`.
 
 So, if the `filePattern` was configured to be `index.html` and there had been a few revisons deployed, then your bucket might look something like this:
 
-![s3-index-bucket](http://i.imgur.com/wmiaYyK.png)
+```bash
+$ aws s3 ls s3://<bucket>/
+                           PRE assets/
+2015-09-27 07:25:26        585 crossdomain.xml
+2015-09-27 07:47:42       1207 index.html
+2015-09-27 07:25:51       1207 index.html:a644ba43cdb987288d646c5a97b1c8a9
+2015-09-27 07:20:27       1207 index.html:61cfff627b79058277e604686197bbbd
+2015-09-27 07:19:11       1207 index.html:9dd26dbc8f3f9a8a342d067335315a63
+```
 
 Activating a revision would copy the content of the passed revision to `index.html` which is used to host your ember application via the [static web hosting](https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html) feature built into S3.
 
 ```bash
-$ ember deploy:activate --revision 18613f3a225d29ec065240a1499f8545
+$ ember deploy:activate --revision a644ba43cdb987288d646c5a97b1c8a9
 ```
 
 ### When does activation occur?

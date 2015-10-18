@@ -88,6 +88,12 @@ The unique revision number for the version of the file being uploaded to S3. The
 
 *Default:* `context.commandLineArgs.revisionKey || context.revisionKey`
 
+### allowOverwrite
+
+A flag to specify whether the revision should be overwritten if it already exists in S3.
+
+*Default:* `false`
+
 ### s3Client
 
 The underlying S3 library used to upload the files to S3. This allows the user to use the default upload client provided by this plugin but switch out the underlying library that is used to actually send the files.

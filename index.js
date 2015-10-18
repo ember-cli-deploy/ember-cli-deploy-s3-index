@@ -25,16 +25,18 @@ module.exports = {
         },
         s3Client: function(context) {
           return context.s3Client; // if you want to provide your own S3 client to be used instead of one from aws-sdk
-        }
+        },
+        allowOverwrite: false
       },
       requiredConfig: ['accessKeyId', 'secretAccessKey', 'bucket'],
 
       upload: function(context) {
-        var bucket      = this.readConfig('bucket');
-        var prefix      = this.readConfig('prefix');
-        var revisionKey = this.readConfig('revisionKey');
-        var distDir     = this.readConfig('distDir');
-        var filePattern = this.readConfig('filePattern');
+        var bucket         = this.readConfig('bucket');
+        var prefix         = this.readConfig('prefix');
+        var revisionKey    = this.readConfig('revisionKey');
+        var distDir        = this.readConfig('distDir');
+        var filePattern    = this.readConfig('filePattern');
+        var allowOverwrite = this.readConfig('allowOverwrite');
         var filePath    = path.join(distDir, filePattern);
 
         var options = {
@@ -43,6 +45,7 @@ module.exports = {
           filePattern: filePattern,
           filePath: filePath,
           revisionKey: revisionKey,
+          allowOverwrite: allowOverwrite
         };
 
         this.log('preparing to upload revision to S3 bucket `' + bucket + '`');

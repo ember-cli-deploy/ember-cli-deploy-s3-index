@@ -74,7 +74,8 @@ describe('s3', function() {
         prefix: '',
         filePattern: filePattern,
         revisionKey: revisionKey,
-        filePath: 'tests/unit/fixtures/test.html'
+        filePath: 'tests/unit/fixtures/test.html',
+        allowOverwrite: false
       };
 
       s3Client.putObject = function(params, cb) {
@@ -151,6 +152,26 @@ describe('s3', function() {
 
           assert.equal(s3Params.ACL, acl, 'acl passed correctly');
         });
+    });
+
+    describe("when revisionKey was already uploaded", function() {
+      beforeEach(function() {
+        options.revisionKey = "123";
+      });
+
+      it('rejects when trying to upload an already uploaded revision', function() {
+        var promise = subject.upload(options);
+
+        return assert.isRejected(promise);
+      });
+
+      it('does not reject when allowOverwrite option is set to true', function() {
+        options.allowOverwrite = true;
+
+        var promise = subject.upload(options);
+
+        return assert.isFulfilled(promise);
+      });
     });
   });
 

@@ -60,7 +60,9 @@ For detailed information on how configuration of plugins works, please refer to 
 
 ### region
 
-The region your bucket is located in.
+The region your bucket is located in. 
+
+__NOTE__: _You need to set the region if your bucket is not located in the default region. (e.g. set this to `eu-west-1` if your bucket is located in the 'Ireland' region)_
 
 *Default:* `'us-east-1'`
 
@@ -169,7 +171,7 @@ You can deploy your Ember application to S3 and still use the history-api for pr
 <RoutingRules>
     <RoutingRule>
         <Condition>
-            <HttpErrorCodeReturnedEquals>404</HttpErrorCodeReturnedEquals>
+            <HttpErrorCodeReturnedEquals>403</HttpErrorCodeReturnedEquals>
         </Condition>
         <Redirect>
             <HostName><your-bucket-endpoint-from-static-website-hosting-options></HostName>

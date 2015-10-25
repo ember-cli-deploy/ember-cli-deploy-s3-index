@@ -48,7 +48,7 @@ module.exports = {
           allowOverwrite: allowOverwrite
         };
 
-        this.log('preparing to upload revision to S3 bucket `' + bucket + '`');
+        this.log('preparing to upload revision to S3 bucket `' + bucket + '`', { verbose: true });
 
         var s3 = new S3({ plugin: this });
         return s3.upload(options);
@@ -67,7 +67,7 @@ module.exports = {
           revisionKey: revisionKey,
         };
 
-        this.log('preparing to activate `' + revisionKey + '`');
+        this.log('preparing to activate `' + revisionKey + '`', { verbose: true });
 
         var s3 = new S3({ plugin: this });
         return s3.activate(options);

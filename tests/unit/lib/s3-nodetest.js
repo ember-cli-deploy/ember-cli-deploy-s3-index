@@ -154,6 +154,35 @@ describe('s3', function() {
         });
     });
 
+    it('allows `cacheControl` to be passed to customize the CacheControl option', function() {
+      var cacheControl = 'max-age=3600, public';
+
+      options.cacheControl = cacheControl;
+
+      var promise = subject.upload(options);
+
+      return assert.isFulfilled(promise)
+        .then(function() {
+          assert.equal(s3Params.CacheControl, cacheControl);
+        });
+    });
+
+    it('allows `metadata` option to be passed to customize the Metadata set on the uploaded file', function() {
+      var metadata = {
+        "surrogate-control": "max-age=3600",
+        "surrogate-key": "index"
+      };
+
+      options.metadata = metadata;
+
+      var promise = subject.upload(options);
+
+      return assert.isFulfilled(promise)
+        .then(function() {
+          assert.equal(s3Params.Metadata, metadata);
+        });
+    });
+
     describe("when revisionKey was already uploaded", function() {
       beforeEach(function() {
         options.revisionKey = "123";

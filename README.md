@@ -20,7 +20,7 @@ For more information on what plugins are and how they work, please refer to the 
 To get up and running quickly, do the following:
 
 - Ensure [ember-cli-deploy-build][4] is installed and configured.
-- Ensure [ember-cli-deploy-revision-key][6] is installed and configured.
+- Ensure [ember-cli-deploy-revision-data][6] is installed and configured.
 - Ensure [ember-cli-deploy-display-revisions](https://github.com/duizendnegen/ember-cli-deploy-display-revisions) is installed and configured.
 
 - Install this plugin
@@ -190,4 +190,4 @@ You can deploy your Ember application to S3 and still use the history-api for pr
 [3]: https://www.npmjs.com/package/redis "Redis Client"
 [4]: https://github.com/zapnito/ember-cli-deploy-build "ember-cli-deploy-build"
 [5]: https://github.com/ember-cli/ember-cli-deploy "ember-cli-deploy"
-[6]: https://github.com/zapnito/ember-cli-deploy-revision-key "ember-cli-deploy-revision-key"
+[6]: https://github.com/ember-cli-deploy/ember-cli-deploy-revision-data "ember-cli-deploy-revision-data"

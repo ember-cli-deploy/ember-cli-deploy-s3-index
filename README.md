@@ -171,7 +171,7 @@ You can deploy your Ember application to S3 and still use the history-api for pr
 <RoutingRules>
     <RoutingRule>
         <Condition>
-            <HttpErrorCodeReturnedEquals>403</HttpErrorCodeReturnedEquals>
+            <HttpErrorCodeReturnedEquals>404</HttpErrorCodeReturnedEquals>
         </Condition>
         <Redirect>
             <HostName><your-bucket-endpoint-from-static-website-hosting-options></HostName>

@@ -119,7 +119,7 @@ describe('s3', function() {
           assert.equal(s3Params.Key, expectedKey, 'Key passed correctly');
           assert.equal(s3Params.ACL, defaultACL, 'ACL defaults to `public-read`');
           assert.equal(s3Params.ContentType, 'text/html', 'contentType is set to `text/html`');
-          assert.equal(s3Params.CacheControl, 'max-age=0, no-cache', 'cacheControl set correctly');
+          assert.equal(s3Params.CacheControl, 'max-age=0, public', 'cacheControl set correctly');
         });
     });
 
@@ -151,6 +151,35 @@ describe('s3', function() {
           var expectedKey     = prefix+'/'+filePattern+':'+revisionKey;
 
           assert.equal(s3Params.ACL, acl, 'acl passed correctly');
+        });
+    });
+
+    it('allows `cacheControl` to be passed to customize the CacheControl option', function() {
+      var cacheControl = 'max-age=3600, public';
+
+      options.cacheControl = cacheControl;
+
+      var promise = subject.upload(options);
+
+      return assert.isFulfilled(promise)
+        .then(function() {
+          assert.equal(s3Params.CacheControl, cacheControl);
+        });
+    });
+
+    it('allows `metadata` option to be passed to customize the Metadata set on the uploaded file', function() {
+      var metadata = {
+        "surrogate-control": "max-age=3600",
+        "surrogate-key": "index"
+      };
+
+      options.metadata = metadata;
+
+      var promise = subject.upload(options);
+
+      return assert.isFulfilled(promise)
+        .then(function() {
+          assert.equal(s3Params.Metadata, metadata);
         });
     });
 

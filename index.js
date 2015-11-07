@@ -11,6 +11,7 @@ module.exports = {
   createDeployPlugin: function(options) {
     var DeployPlugin = DeployPluginBase.extend({
       name: options.name,
+      S3: options.S3 || S3,
 
       defaultConfig: {
         region: 'us-east-1',
@@ -55,7 +56,7 @@ module.exports = {
 
         this.log('preparing to upload revision to S3 bucket `' + bucket + '`');
 
-        var s3 = new S3({ plugin: this });
+        var s3 = new this.S3({ plugin: this });
         return s3.upload(options);
       },
 
@@ -74,8 +75,15 @@ module.exports = {
 
         this.log('preparing to activate `' + revisionKey + '`');
 
-        var s3 = new S3({ plugin: this });
+        var s3 = new this.S3({ plugin: this });
         return s3.activate(options);
+      },
+
+      didActivate: function(context) {
+        var didActivate = this.readConfig('didActivate') || function() {};
+
+        return Promise.resolve()
+          .then(didActivate)
       },
 
       fetchRevisions: function(context) {
@@ -89,7 +97,7 @@ module.exports = {
           filePattern: filePattern,
         };
 
-        var s3 = new S3({ plugin: this });
+        var s3 = new this.S3({ plugin: this });
         return s3.fetchRevisions(options)
           .then(function(revisions) {
             context.revisions = revisions;

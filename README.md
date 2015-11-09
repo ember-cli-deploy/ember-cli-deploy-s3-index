@@ -56,7 +56,13 @@ For detailed information on what plugin hooks are and how they work, please refe
 
 ## Configuration Options
 
+
 For detailed information on how configuration of plugins works, please refer to the [Plugin Documentation][2].
+
+
+<hr/>
+**WARNING: Don't share a configuration object between [ember-cli-deploy-s3](https://github.com/ember-cli-deploy/ember-cli-deploy-s3) and this plugin. The way these two plugins read their configuration has sideeffects which will unfortunately break your deploy if you share one configuration object between the two** (we are already working on a fix)
+<hr/>
 
 ### region
 

@@ -78,6 +78,12 @@ A file matching this pattern will be uploaded to S3. The active key in S3 will b
 
 *Default:* `'index.html'`
 
+### acl
+
+The ACL to apply to the objects.
+
+*Default:* `'public-read'`
+
 ### distDir
 
 The root directory where the file matching `filePattern` will be searched for. By default, this option will use the `distDir` property of the deployment context.

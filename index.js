@@ -16,6 +16,7 @@ module.exports = {
         region: 'us-east-1',
         filePattern: 'index.html',
         prefix: '',
+        acl: 'public-read',
         distDir: function(context) {
           return context.distDir;
         },
@@ -33,6 +34,7 @@ module.exports = {
       upload: function(context) {
         var bucket         = this.readConfig('bucket');
         var prefix         = this.readConfig('prefix');
+        var acl            = this.readConfig('acl');
         var revisionKey    = this.readConfig('revisionKey');
         var distDir        = this.readConfig('distDir');
         var filePattern    = this.readConfig('filePattern');
@@ -42,6 +44,7 @@ module.exports = {
         var options = {
           bucket: bucket,
           prefix: prefix,
+          acl: acl,
           filePattern: filePattern,
           filePath: filePath,
           revisionKey: revisionKey,

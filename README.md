@@ -2,9 +2,7 @@
 
 > An ember-cli-deploy plugin to deploy ember-cli's bootstrap index file to [S3](https://aws.amazon.com/de/s3).
 
-<hr/>
-**WARNING: This plugin is only compatible with ember-cli-deploy versions >= 0.5.0**
-<hr/>
+[![](https://ember-cli-deploy.github.io/ember-cli-deploy-version-badges/plugins/ember-cli-deploy-s3-index.svg)](http://ember-cli-deploy.github.io/ember-cli-deploy-version-badges/)
 
 This plugin uploads a file, presumably index.html, to a specified S3-bucket.
 

@@ -21,8 +21,8 @@ var compareCommits = Promise.denodeify(github.repos.compareCommits);
 var currentVersion = 'v' + require('../package').version;
 
 var user = 'ember-cli-deploy';
-var repo = 'ember-cli-deploy-redis';
 
+var repo = 'ember-cli-deploy-s3-index';
 compareCommits({
   user: user,
   repo: repo,

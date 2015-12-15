@@ -170,7 +170,7 @@ The following properties are expected to be present on the deployment `context` 
 
 - `distDir`                     (provided by [ember-cli-deploy-build][4])
 - `project.name()`              (provided by [ember-cli-deploy][5])
-- `revisionKey`                 (provided by [ember-cli-deploy-revision-key][6])
+- `revisionKey`                 (provided by [ember-cli-deploy-revision-data][6])
 - `commandLineArgs.revisionKey` (provided by [ember-cli-deploy][5])
 - `deployEnvironment`           (provided by [ember-cli-deploy][5])
 

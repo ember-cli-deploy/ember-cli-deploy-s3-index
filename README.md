@@ -62,13 +62,27 @@ For detailed information on how configuration of plugins works, please refer to 
 **WARNING: Don't share a configuration object between [ember-cli-deploy-s3](https://github.com/ember-cli-deploy/ember-cli-deploy-s3) and this plugin. The way these two plugins read their configuration has sideeffects which will unfortunately break your deploy if you share one configuration object between the two** (we are already working on a fix)
 <hr/>
 
-### region
+### accessKeyId (`required`)
 
-The region your bucket is located in. 
+The AWS access key for the user that has the ability to upload to the `bucket`.
+*Default:* `undefined`
 
-__NOTE__: _You need to set the region if your bucket is not located in the default region. (e.g. set this to `eu-west-1` if your bucket is located in the 'Ireland' region)_
+### secretAccessKey (`required`)
 
-*Default:* `'us-east-1'`
+The AWS secret for the user that has the ability to upload to the `bucket`.
+*Default:* `undefined`
+
+### bucket (`required`)
+
+The AWS bucket that the files will be uploaded to.
+
+*Default:* `undefined`
+
+### region (`required`)
+
+The region your bucket is located in. (e.g. set this to `eu-west-1` if your bucket is located in the 'Ireland' region)
+
+*Default:* `undefined`
 
 ### prefix
 

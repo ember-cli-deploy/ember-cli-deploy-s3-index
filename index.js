@@ -13,7 +13,6 @@ module.exports = {
       name: options.name,
 
       defaultConfig: {
-        region: 'us-east-1',
         filePattern: 'index.html',
         prefix: '',
         acl: 'public-read',
@@ -29,7 +28,7 @@ module.exports = {
         },
         allowOverwrite: false
       },
-      requiredConfig: ['accessKeyId', 'secretAccessKey', 'bucket'],
+      requiredConfig: ['accessKeyId', 'secretAccessKey', 'bucket', 'region'],
 
       upload: function(context) {
         var bucket         = this.readConfig('bucket');

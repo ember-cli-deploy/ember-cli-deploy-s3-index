@@ -28,7 +28,7 @@ module.exports = {
         },
         allowOverwrite: false
       },
-      requiredConfig: ['accessKeyId', 'secretAccessKey', 'bucket', 'region'],
+      requiredConfig: ['bucket', 'region'],
 
       upload: function(context) {
         var bucket         = this.readConfig('bucket');

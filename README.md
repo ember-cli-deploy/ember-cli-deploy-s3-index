@@ -62,14 +62,16 @@ For detailed information on how configuration of plugins works, please refer to 
 **WARNING: Don't share a configuration object between [ember-cli-deploy-s3](https://github.com/ember-cli-deploy/ember-cli-deploy-s3) and this plugin. The way these two plugins read their configuration has sideeffects which will unfortunately break your deploy if you share one configuration object between the two** (we are already working on a fix)
 <hr/>
 
-### accessKeyId (`required`)
+### accessKeyId
 
-The AWS access key for the user that has the ability to upload to the `bucket`.
+The AWS access key for the user that has the ability to upload to the `bucket`. If this is left undefined, the normal [AWS SDK credential resolution](7) will take place.
+
 *Default:* `undefined`
 
-### secretAccessKey (`required`)
+### secretAccessKey
 
-The AWS secret for the user that has the ability to upload to the `bucket`.
+The AWS secret for the user that has the ability to upload to the `bucket`. This must be defined when `accessKeyId` is defined.
+
 *Default:* `undefined`
 
 ### bucket (`required`)
@@ -215,3 +217,4 @@ You can deploy your Ember application to S3 and still use the history-api for pr
 [4]: https://github.com/ember-cli-deploy/ember-cli-deploy-build "ember-cli-deploy-build"
 [5]: https://github.com/ember-cli/ember-cli-deploy "ember-cli-deploy"
 [6]: https://github.com/ember-cli-deploy/ember-cli-deploy-revision-data "ember-cli-deploy-revision-data"
+[7]: https://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html#Setting_AWS_Credentials "Setting AWS Credentials"

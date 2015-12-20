@@ -30,7 +30,7 @@ $ ember install ember-cli-deploy-s3-index
 - Place the following configuration into `config/deploy.js`
 
 ```javascript
-ENV['s3-index'] {
+ENV['s3-index'] = {
   accessKeyId: '<your-access-key>',
   secretAccessKey: '<your-secret>',
   bucket: '<your-bucket-name>'

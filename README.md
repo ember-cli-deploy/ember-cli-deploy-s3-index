@@ -190,7 +190,42 @@ The following properties are expected to be present on the deployment `context` 
 - `commandLineArgs.revisionKey` (provided by [ember-cli-deploy][5])
 - `deployEnvironment`           (provided by [ember-cli-deploy][5])
 
-# Using History-Location
+# Configuring Amazon S3
+
+## Minimum S3 Permissions
+
+This plugin requires the following permissions on your Amazon S3 access policy:
+
+  * For the bucket:
+    * s3:ListBucket
+  * For the files on the bucket:
+    * s3:GetObject
+    * s3:PutObject
+    * s3:PutObjectACL
+
+The following is an example policy that meets these requirements:
+
+    {
+        "Statement": [
+            {
+                "Sid": "Stmt1EmberCLIS3IndexDeployPolicy",
+                "Effect": "Allow",
+                "Action": [
+                    "s3:GetObject",
+                    "s3:PutObject",
+                    "s3:PutObjectACL",
+                    "s3:ListBucket"
+                ],
+                "Resource": [
+                    "arn:aws:s3:::<your-bucket-name>",
+                    "arn:aws:s3:::<your-bucket-name>/*"
+                ]
+            }
+        ]
+    }
+
+
+## Using History-Location
 You can deploy your Ember application to S3 and still use the history-api for pretty URLs. This needs some configuration tweaking in your bucket's static-website-hosting options in the AWS console though. You can use S3's `Redirection Rules`-feature to redirect user's to the correct route based on the URL they are requesting from your app:
 
 ```

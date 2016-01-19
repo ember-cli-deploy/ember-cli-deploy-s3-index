@@ -26,6 +26,15 @@ module.exports = {
         s3Client: function(context) {
           return context.s3Client; // if you want to provide your own S3 client to be used instead of one from aws-sdk
         },
+        didDeployMessage: function(context){
+          var revisionKey = context.revisionData && context.revisionData.revisionKey;
+          var activatedRevisionKey = context.revisionData && context.revisionData.activatedRevisionKey;
+          if (revisionKey && !activatedRevisionKey) {
+            return "Deployed but did not activate revision " + revisionKey + ". "
+                 + "To activate, run: "
+                 + "ember deploy:activate " + context.deployTarget + " --revision=" + revisionKey + "\n";
+          }
+        },
         allowOverwrite: false
       },
       requiredConfig: ['bucket', 'region'],
@@ -72,9 +81,23 @@ module.exports = {
         this.log('preparing to activate `' + revisionKey + '`', { verbose: true });
 
         var s3 = new S3({ plugin: this });
-        return s3.activate(options);
+        return s3.activate(options).then(function() {
+          return {
+            revisionData: {
+              activatedRevisionKey: revisionKey
+            }
+          }
+        });
+        
       },
 
+      didDeploy: function(/* context */){
+        var didDeployMessage = this.readConfig('didDeployMessage');
+        if (didDeployMessage) {
+          this.log(didDeployMessage);
+        }
+      },
+      
       fetchRevisions: function(context) {
         var bucket      = this.readConfig('bucket');
         var prefix      = this.readConfig('prefix');
@@ -91,6 +114,11 @@ module.exports = {
           .then(function(revisions) {
             context.revisions = revisions;
           });
+      },
+
+      _errorMessage: function(error) {
+        this.log(error, { color: 'red' });
+        return Promise.reject(error);
       },
     });
 

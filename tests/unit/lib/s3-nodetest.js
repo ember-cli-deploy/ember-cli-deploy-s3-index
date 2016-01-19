@@ -72,6 +72,7 @@ describe('s3', function() {
       options = {
         bucket: bucket,
         prefix: '',
+        acl: 'public-read',
         filePattern: filePattern,
         revisionKey: revisionKey,
         filePath: 'tests/unit/fixtures/test.html',

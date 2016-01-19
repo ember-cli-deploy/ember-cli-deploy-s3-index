@@ -2,9 +2,7 @@
 
 > An ember-cli-deploy plugin to deploy ember-cli's bootstrap index file to [S3](https://aws.amazon.com/de/s3).
 
-<hr/>
-**WARNING: This plugin is only compatible with ember-cli-deploy versions >= 0.5.0**
-<hr/>
+[![](https://ember-cli-deploy.github.io/ember-cli-deploy-version-badges/plugins/ember-cli-deploy-s3-index.svg)](http://ember-cli-deploy.github.io/ember-cli-deploy-version-badges/)
 
 This plugin uploads a file, presumably index.html, to a specified S3-bucket.
 
@@ -32,7 +30,7 @@ $ ember install ember-cli-deploy-s3-index
 - Place the following configuration into `config/deploy.js`
 
 ```javascript
-ENV['s3-index'] {
+ENV['s3-index'] = {
   accessKeyId: '<your-access-key>',
   secretAccessKey: '<your-secret>',
   bucket: '<your-bucket-name>'
@@ -56,15 +54,37 @@ For detailed information on what plugin hooks are and how they work, please refe
 
 ## Configuration Options
 
+
 For detailed information on how configuration of plugins works, please refer to the [Plugin Documentation][2].
 
-### region
 
-The region your bucket is located in. 
+<hr/>
+**WARNING: Don't share a configuration object between [ember-cli-deploy-s3](https://github.com/ember-cli-deploy/ember-cli-deploy-s3) and this plugin. The way these two plugins read their configuration has sideeffects which will unfortunately break your deploy if you share one configuration object between the two** (we are already working on a fix)
+<hr/>
 
-__NOTE__: _You need to set the region if your bucket is not located in the default region. (e.g. set this to `eu-west-1` if your bucket is located in the 'Ireland' region)_
+### accessKeyId
 
-*Default:* `'us-east-1'`
+The AWS access key for the user that has the ability to upload to the `bucket`. If this is left undefined, the normal [AWS SDK credential resolution][7] will take place.
+
+*Default:* `undefined`
+
+### secretAccessKey
+
+The AWS secret for the user that has the ability to upload to the `bucket`. This must be defined when `accessKeyId` is defined.
+
+*Default:* `undefined`
+
+### bucket (`required`)
+
+The AWS bucket that the files will be uploaded to.
+
+*Default:* `undefined`
+
+### region (`required`)
+
+The region your bucket is located in. (e.g. set this to `eu-west-1` if your bucket is located in the 'Ireland' region)
+
+*Default:* `undefined`
 
 ### prefix
 
@@ -77,6 +97,12 @@ A directory within the `bucket` that the files should be uploaded in to.
 A file matching this pattern will be uploaded to S3. The active key in S3 will be a combination of the `bucket`, `prefix`, `filePattern`. The versioned keys will have `revisionKey` appended.
 
 *Default:* `'index.html'`
+
+### acl
+
+The ACL to apply to the objects.
+
+*Default:* `'public-read'`
 
 ### distDir
 
@@ -138,7 +164,7 @@ $ ember deploy:activate --revision <revision-key>
 - Setting the `activateOnDeploy` flag in `deploy.js`
 
 ```javascript
-ENV.pipeline {
+ENV.pipeline = {
   activateOnDeploy: true
 }
 ```
@@ -175,11 +201,46 @@ The following properties are expected to be present on the deployment `context` 
 
 - `distDir`                     (provided by [ember-cli-deploy-build][4])
 - `project.name()`              (provided by [ember-cli-deploy][5])
-- `revisionKey`                 (provided by [ember-cli-deploy-revision-key][6])
+- `revisionKey`                 (provided by [ember-cli-deploy-revision-data][6])
 - `commandLineArgs.revisionKey` (provided by [ember-cli-deploy][5])
 - `deployEnvironment`           (provided by [ember-cli-deploy][5])
 
-# Using History-Location
+# Configuring Amazon S3
+
+## Minimum S3 Permissions
+
+This plugin requires the following permissions on your Amazon S3 access policy:
+
+  * For the bucket:
+    * s3:ListBucket
+  * For the files on the bucket:
+    * s3:GetObject
+    * s3:PutObject
+    * s3:PutObjectACL
+
+The following is an example policy that meets these requirements:
+
+    {
+        "Statement": [
+            {
+                "Sid": "Stmt1EmberCLIS3IndexDeployPolicy",
+                "Effect": "Allow",
+                "Action": [
+                    "s3:GetObject",
+                    "s3:PutObject",
+                    "s3:PutObjectACL",
+                    "s3:ListBucket"
+                ],
+                "Resource": [
+                    "arn:aws:s3:::<your-bucket-name>",
+                    "arn:aws:s3:::<your-bucket-name>/*"
+                ]
+            }
+        ]
+    }
+
+
+## Using History-Location
 You can deploy your Ember application to S3 and still use the history-api for pretty URLs. This needs some configuration tweaking in your bucket's static-website-hosting options in the AWS console though. You can use S3's `Redirection Rules`-feature to redirect user's to the correct route based on the URL they are requesting from your app:
 
 ```
@@ -203,6 +264,7 @@ You can deploy your Ember application to S3 and still use the history-api for pr
 [1]: https://github.com/lukemelia/ember-cli-deploy-lightning-pack "ember-cli-deploy-lightning-pack"
 [2]: http://ember-cli.github.io/ember-cli-deploy/plugins "Plugin Documentation"
 [3]: https://www.npmjs.com/package/redis "Redis Client"
-[4]: https://github.com/zapnito/ember-cli-deploy-build "ember-cli-deploy-build"
+[4]: https://github.com/ember-cli-deploy/ember-cli-deploy-build "ember-cli-deploy-build"
 [5]: https://github.com/ember-cli/ember-cli-deploy "ember-cli-deploy"
 [6]: https://github.com/ember-cli-deploy/ember-cli-deploy-revision-data "ember-cli-deploy-revision-data"
+[7]: https://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html#Setting_AWS_Credentials "Setting AWS Credentials"

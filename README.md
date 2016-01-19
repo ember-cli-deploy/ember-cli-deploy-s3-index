@@ -130,6 +130,22 @@ The client specified MUST implement functions called `getObject` and `putObject`
 
 *Default:* the default S3 library is `aws-sdk`
 
+### didDeployMessage
+
+A message that will be displayed after the index file has been successfully uploaded to S3. By default this message will only display if the revision for `revisionData.revisionKey` of the deployment context has been activated.
+
+*Default:*
+
+```javascript
+if (context.revisionData.revisionKey && !context.revisionData.activatedRevisionKey) {
+  return "Deployed but did not activate revision " + context.revisionData.revisionKey + ". "
+       + "To activate, run: "
+       + "ember deploy:activate " + context.revisionData.revisionKey + " --environment=" + context.deployEnvironment + "\n";
+}
+```
+
+
+
 ### How do I activate a revision?
 
 A user can activate a revision by either:

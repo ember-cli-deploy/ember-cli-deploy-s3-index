@@ -149,7 +149,7 @@ $ ember deploy:activate --revision <revision-key>
 - Setting the `activateOnDeploy` flag in `deploy.js`
 
 ```javascript
-ENV.pipeline {
+ENV.pipeline = {
   activateOnDeploy: true
 }
 ```

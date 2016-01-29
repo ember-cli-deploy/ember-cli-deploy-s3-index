@@ -73,6 +73,7 @@ describe('s3', function() {
         bucket: bucket,
         prefix: '',
         acl: 'public-read',
+        gzippedFilePaths: [],
         filePattern: filePattern,
         revisionKey: revisionKey,
         filePath: 'tests/unit/fixtures/test.html',
@@ -134,6 +135,16 @@ describe('s3', function() {
         .then(function() {
           var expectedContentType = 'application/x-tar';
           assert.equal(s3Params.ContentType, expectedContentType, 'contentType is set to `application/x-tar');
+        });
+    });
+
+    it('sets the Content-Encoding header to gzip when the index file is gziped', function() {
+      options.gzippedFilePaths = ['index.html'];
+      var promise = subject.upload(options);
+
+      return assert.isFulfilled(promise)
+        .then(function() {
+          assert.equal(s3Params.ContentEncoding, 'gzip', 'contentEncoding is set to gzip');
         });
     });
 

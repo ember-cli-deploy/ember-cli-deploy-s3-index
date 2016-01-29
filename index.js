@@ -29,6 +29,9 @@ module.exports = {
         s3DeployClient: function(/* context */) {
           return new S3({ plugin: this });
         },
+        gzippedFiles: function(context) {
+          return context.gzippedFiles || [];
+        },
         allowOverwrite: false
       },
 
@@ -41,6 +44,7 @@ module.exports = {
         var revisionKey    = this.readConfig('revisionKey');
         var distDir        = this.readConfig('distDir');
         var filePattern    = this.readConfig('filePattern');
+        var gzippedFiles   = this.readConfig('gzippedFiles');
         var allowOverwrite = this.readConfig('allowOverwrite');
         var filePath    = path.join(distDir, filePattern);
 
@@ -51,6 +55,7 @@ module.exports = {
           filePattern: filePattern,
           filePath: filePath,
           revisionKey: revisionKey,
+          gzippedFilePaths: gzippedFiles,
           allowOverwrite: allowOverwrite
         };
 

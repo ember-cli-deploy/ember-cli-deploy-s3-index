@@ -59,12 +59,14 @@ module.exports = {
       activate: function(context) {
         var bucket      = this.readConfig('bucket');
         var prefix      = this.readConfig('prefix');
+        var acl         = this.readConfig('acl');
         var revisionKey = this.readConfig('revisionKey');
         var filePattern = this.readConfig('filePattern');
 
         var options = {
           bucket: bucket,
           prefix: prefix,
+          acl: acl,
           filePattern: filePattern,
           revisionKey: revisionKey,
         };

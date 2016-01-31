@@ -124,6 +124,19 @@ describe('s3', function() {
         });
     });
 
+    it('detects `filePattern` other than `index.html` in order to customize ContentType', function() {
+      var filePath = 'tests/unit/fixtures/test.tar';
+
+      options.filePath = filePath;
+      var promise = subject.upload(options);
+
+      return assert.isFulfilled(promise)
+        .then(function() {
+          var expectedContentType = 'application/x-tar';
+          assert.equal(s3Params.ContentType, expectedContentType, 'contentType is set to `application/x-tar');
+        });
+    });
+
     it('allows `prefix` option to be passed to customize upload-path', function() {
       var prefix = 'my-app';
 

@@ -235,12 +235,14 @@ describe('s3', function() {
   describe('#activate', function() {
     var bucket      = 'some-bucket';
     var prefix      = '';
+    var acl         = 'public-read';
     var filePattern = 'test.html';
 
     beforeEach(function() {
       options = {
         bucket: bucket,
         prefix: prefix,
+        acl: acl,
         filePattern: filePattern
       };
     });
@@ -273,7 +275,7 @@ describe('s3', function() {
         return assert.isFulfilled(promise)
           .then(function() {
             assert.equal(copyParams.Bucket, bucket);
-            assert.equal(copyParams.ACL, 'public-read');
+            assert.equal(copyParams.ACL, acl);
             assert.equal(copyParams.CopySource, bucket+'%2F'+filePattern+'%3A456');
             assert.equal(copyParams.Key, filePattern);
           });

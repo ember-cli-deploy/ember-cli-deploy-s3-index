@@ -26,8 +26,12 @@ module.exports = {
         s3Client: function(context) {
           return context.s3Client; // if you want to provide your own S3 client to be used instead of one from aws-sdk
         },
+        s3DeployClient: function(/* context */) {
+          return new S3({ plugin: this });
+        },
         allowOverwrite: false
       },
+
       requiredConfig: ['bucket', 'region'],
 
       upload: function(context) {
@@ -52,7 +56,7 @@ module.exports = {
 
         this.log('preparing to upload revision to S3 bucket `' + bucket + '`', { verbose: true });
 
-        var s3 = new S3({ plugin: this });
+        var s3 = this.readConfig('s3DeployClient');
         return s3.upload(options);
       },
 
@@ -73,11 +77,29 @@ module.exports = {
 
         this.log('preparing to activate `' + revisionKey + '`', { verbose: true });
 
-        var s3 = new S3({ plugin: this });
+        var s3 = this.readConfig('s3DeployClient');
         return s3.activate(options);
       },
 
       fetchRevisions: function(context) {
+        return this._list(context)
+          .then(function(revisions) {
+            return {
+              revisions: revisions
+            };
+          });
+      },
+
+      fetchInitialRevisions: function(context) {
+        return this._list(context)
+          .then(function(revisions) {
+            return {
+              initialRevisions: revisions
+            };
+          });
+      },
+
+      _list: function(/* context */) {
         var bucket      = this.readConfig('bucket');
         var prefix      = this.readConfig('prefix');
         var filePattern = this.readConfig('filePattern');
@@ -88,12 +110,9 @@ module.exports = {
           filePattern: filePattern,
         };
 
-        var s3 = new S3({ plugin: this });
-        return s3.fetchRevisions(options)
-          .then(function(revisions) {
-            context.revisions = revisions;
-          });
-      },
+        var s3 = this.readConfig('s3DeployClient');
+        return s3.fetchRevisions(options);
+      }
     });
 
     return new DeployPlugin();

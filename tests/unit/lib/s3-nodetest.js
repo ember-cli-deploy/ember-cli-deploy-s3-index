@@ -2,6 +2,7 @@ var assert = require('ember-cli/tests/helpers/assert');
 
 describe('s3', function() {
   var S3, mockUi, s3Client, plugin, subject, options, listParams, headParams, copyParams;
+  var deployer = 'foo';
 
   before(function() {
     S3 = require('../../../lib/s3');
@@ -10,12 +11,33 @@ describe('s3', function() {
   beforeEach(function() {
     revisionsData = {
       Contents: [
-        { Key: 'test.html:123', LastModified: new Date('September 27, 2015 01:00:00'), ETag: '123' },
-        { Key: 'test.html:456', LastModified: new Date('September 27, 2015 02:00:00') , ETag: '456' }
+        {
+          Key: 'test.html:123',
+          LastModified: new Date('September 27, 2015 01:00:00'),
+          ETag: '123',
+          Metadata: {
+            deployer: deployer
+          }
+        },
+        {
+          Key: 'test.html:456',
+          LastModified: new Date('September 27, 2015 02:00:00'),
+          ETag: '456',
+          Metadata: {
+            deployer: deployer
+          }
+        }
       ]
     };
 
-    currentData = { Key: 'test.html', lastModified: new Date('September 27, 2015 01:30:00'), ETag: '123' };
+    currentData = {
+      Key: 'test.html',
+      lastModified: new Date('September 27, 2015 01:30:00'),
+      ETag: '123',
+      Metadata: {
+        deployer: deployer
+      }
+    };
 
     s3Client = {
       putObject: function(params, cb) {
@@ -67,6 +89,7 @@ describe('s3', function() {
     var revisionKey = 'some-revision-key';
     var bucket      = 'some-bucket';
     var prefix      = 'my-app';
+    var deployer    = 'foo';
 
     beforeEach(function() {
       options = {
@@ -76,7 +99,8 @@ describe('s3', function() {
         filePattern: filePattern,
         revisionKey: revisionKey,
         filePath: 'tests/unit/fixtures/test.html',
-        allowOverwrite: false
+        allowOverwrite: false,
+        deployer: deployer
       };
 
       s3Client.putObject = function(params, cb) {
@@ -193,6 +217,7 @@ describe('s3', function() {
     var bucket      = 'some-bucket';
     var prefix      = '';
     var filePattern = 'test.html';
+    var deployer    = 'foo'
 
     beforeEach(function() {
       options = {
@@ -202,11 +227,11 @@ describe('s3', function() {
       };
     });
 
-    it('returns an array of uploaded revisions in `{ revision: revisionKey, timestamp: timestamp, active: active }` format sorted by date in descending order', function() {
+    it('returns an array of uploaded revisions in `{ revision: revisionKey, timestamp: timestamp, active: active, deployer: deployer}` format sorted by date in descending order', function() {
       var promise = subject.fetchRevisions(options);
       var expected = [
-          { revision: '456', timestamp: new Date('September 27, 2015 02:00:00') , active: false },
-          { revision: '123', timestamp: new Date('September 27, 2015 01:00:00'), active: true }
+          { revision: '456', timestamp: new Date('September 27, 2015 02:00:00') , active: false, deployer: deployer },
+          { revision: '123', timestamp: new Date('September 27, 2015 01:00:00'), active: true, deployer: deployer }
       ];
 
       return assert.isFulfilled(promise)
@@ -250,13 +275,15 @@ describe('s3', function() {
     var prefix      = '';
     var acl         = 'public-read';
     var filePattern = 'test.html';
+    var deployer    = 'foo';
 
     beforeEach(function() {
       options = {
         bucket: bucket,
         prefix: prefix,
         acl: acl,
-        filePattern: filePattern
+        filePattern: filePattern,
+        deployer: deployer
       };
     });
 
@@ -295,16 +322,33 @@ describe('s3', function() {
       });
 
       it('allows `prefix` option to be passed to customize Key and CopySource passed to s3#copyObject', function() {
-        var prefix = 'my-app';
+        var prefix   = 'my-app';
+        var deployer = 'foo';
+
         revisionsData = {
           Contents: [
-            { Key: prefix+'/test.html:123', LastModified: new Date('September 27, 2015 01:00:00'), ETag: '123' },
-            { Key: prefix+'/test.html:456', LastModified: new Date('September 27, 2015 02:00:00') , ETag: '456' }
+            {
+              Key: prefix + '/test.html:123',
+              LastModified: new Date('September 27, 2015 01:00:00'),
+              ETag: '123',
+              Metadata: {
+                deployer: deployer
+              }
+            },
+            {
+              Key: prefix + '/test.html:456',
+              LastModified: new Date('September 27, 2015 02:00:00'),
+              ETag: '456',
+              Metadata: {
+                deployer: deployer
+              }
+            }
           ]
         };
 
-        options.prefix = prefix;
-        var promise    = subject.activate(options);
+        options.prefix   = prefix;
+        options.deployer = deployer;
+        var promise      = subject.activate(options);
 
         return assert.isFulfilled(promise)
           .then(function() {

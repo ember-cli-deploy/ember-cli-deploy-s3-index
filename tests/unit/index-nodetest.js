@@ -48,6 +48,7 @@ describe('s3-index plugin', function() {
     it('fills the initialRevisions variable on context', function() {
       var plugin;
       var context;
+      var deployer = 'foo';
 
       plugin = subject.createDeployPlugin({
         name: 's3-index'
@@ -62,12 +63,14 @@ describe('s3-index plugin', function() {
             filePattern: 'index.html',
             bucket: 'my-bucket',
             region: 'my-region',
+            deployer: deployer,
             s3DeployClient: function(/* context */) {
               return {
                 fetchRevisions: function(/* keyPrefix, revisionKey */) {
                   return Promise.resolve([{
                     revision: 'a',
-                    active: false
+                    active: false,
+                    deployer: deployer
                   }]);
                 }
               };
@@ -83,7 +86,8 @@ describe('s3-index plugin', function() {
           assert.deepEqual(result, {
             initialRevisions: [{
               "active": false,
-              "revision": "a"
+              "revision": "a",
+              "deployer": deployer
             }]
           });
         });
@@ -94,6 +98,7 @@ describe('s3-index plugin', function() {
     it('fills the revisions variable on context', function() {
       var plugin;
       var context;
+      var deployer = 'foo';
 
       plugin = subject.createDeployPlugin({
         name: 's3-index'
@@ -109,12 +114,14 @@ describe('s3-index plugin', function() {
             filePattern: 'index.html',
             bucket: 'my-bucket',
             region: 'my-region',
+            deployer: deployer,
             s3DeployClient: function(/* context */) {
               return {
                 fetchRevisions: function(/* keyPrefix, revisionKey */) {
                   return Promise.resolve([{
                     revision: 'a',
-                    active: false
+                    active: false,
+                    deployer: deployer
                   }]);
                 }
               };
@@ -130,7 +137,8 @@ describe('s3-index plugin', function() {
           assert.deepEqual(result, {
               revisions: [{
                 "active": false,
-                "revision": "a"
+                "revision": "a",
+                "deployer": deployer
               }]
           });
         });

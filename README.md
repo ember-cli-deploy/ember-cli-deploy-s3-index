@@ -122,6 +122,12 @@ A flag to specify whether the revision should be overwritten if it already exist
 
 *Default:* `false`
 
+### deployer
+
+Name of the deployer
+ 
+*Default:* `git config --global user.name`
+
 ### s3Client
 
 The underlying S3 library used to upload the files to S3. This allows the user to use the default upload client provided by this plugin but switch out the underlying library that is used to actually send the files.

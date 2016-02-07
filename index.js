@@ -4,6 +4,7 @@ var path             = require('path');
 var Promise          = require('ember-cli/lib/ext/promise');
 var DeployPluginBase = require('ember-cli-deploy-plugin');
 var S3               = require('./lib/s3');
+var syncExec         = require('sync-exec');
 
 module.exports = {
   name: 'ember-cli-deploy-s3-index',
@@ -29,7 +30,10 @@ module.exports = {
         s3DeployClient: function(/* context */) {
           return new S3({ plugin: this });
         },
-        allowOverwrite: false
+        allowOverwrite: false,
+        deployer: function(context) {
+          return context.deployer || syncExec('git config --global user.name').stdout;
+        }
       },
 
       requiredConfig: ['bucket', 'region'],
@@ -42,6 +46,7 @@ module.exports = {
         var distDir        = this.readConfig('distDir');
         var filePattern    = this.readConfig('filePattern');
         var allowOverwrite = this.readConfig('allowOverwrite');
+        var deployer       = this.readConfig('deployer');
         var filePath    = path.join(distDir, filePattern);
 
         var options = {
@@ -51,7 +56,8 @@ module.exports = {
           filePattern: filePattern,
           filePath: filePath,
           revisionKey: revisionKey,
-          allowOverwrite: allowOverwrite
+          allowOverwrite: allowOverwrite,
+          deployer: deployer
         };
 
         this.log('preparing to upload revision to S3 bucket `' + bucket + '`', { verbose: true });
@@ -65,6 +71,7 @@ module.exports = {
         var prefix      = this.readConfig('prefix');
         var acl         = this.readConfig('acl');
         var revisionKey = this.readConfig('revisionKey');
+        var deployer    = this.readConfig('deployer');
         var filePattern = this.readConfig('filePattern');
 
         var options = {
@@ -73,6 +80,7 @@ module.exports = {
           acl: acl,
           filePattern: filePattern,
           revisionKey: revisionKey,
+          deployer: deployer
         };
 
         this.log('preparing to activate `' + revisionKey + '`', { verbose: true });

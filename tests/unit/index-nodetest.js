@@ -1,7 +1,8 @@
 'use strict';
 
-var Promise = require('ember-cli/lib/ext/promise');
-var assert  = require('ember-cli/tests/helpers/assert');
+var CoreObject = require('core-object');
+var Promise    = require('ember-cli/lib/ext/promise');
+var assert     = require('ember-cli/tests/helpers/assert');
 
 var stubProject = {
   name: function(){
@@ -10,10 +11,28 @@ var stubProject = {
 };
 
 describe('s3-index plugin', function() {
-  var subject, mockUi;
+  var subject, mockUi, context, MockS3, plugin, s3Options, REVISIONS_DATA;
+
+  var DIST_DIR                = 'tmp/dist';
+  var BUCKET                  = 'bucket';
+  var REGION                  = 'eu-west-1';
+  var REVISION_KEY            = 'revision-key';
+  var DEFAULT_PREFIX          = '';
+  var DEFAULT_FILE_PATTERN    = 'index.html';
+  var DEFAULT_ACL             = 'public-read';
+
+  function s3Stub(returnValue) {
+    return function(options) {
+      s3Options = options;
+      return Promise.resolve(returnValue);
+    };
+  }
+
+  before(function() {
+    subject = require('../../index');
+  });
 
   beforeEach(function() {
-    subject = require('../../index');
     mockUi = {
       verbose: true,
       messages: [],
@@ -22,118 +41,182 @@ describe('s3-index plugin', function() {
         this.messages.push(message);
       }
     };
+
+    REVISIONS_DATA = [{
+      revision: 'a',
+      active: false
+    }];
+
+    MockS3 = CoreObject.extend({
+      upload: s3Stub(),
+      activate: s3Stub(),
+      fetchRevisions: s3Stub(REVISIONS_DATA)
+    });
+
+
+    plugin = subject.createDeployPlugin({
+      name: 's3-index',
+      S3: MockS3
+    });
+
+    context = {
+      ui: mockUi,
+
+      project: stubProject,
+
+      commandOptions: {},
+
+      distDir: DIST_DIR,
+
+      revisionData: {
+        revisionKey: REVISION_KEY
+      },
+
+      config: {
+        's3-index': {
+          prefix: DEFAULT_PREFIX,
+          filePattern: DEFAULT_FILE_PATTERN,
+          bucket: BUCKET,
+          region: REGION
+        }
+      }
+    };
   });
 
   it('has a name', function() {
-    var result = subject.createDeployPlugin({
-      name: 'test-plugin'
-    });
-
-    assert.equal(result.name, 'test-plugin');
-  });
-
-  it('implements the correct hooks', function() {
-    var plugin = subject.createDeployPlugin({
-      name: 'test-plugin'
-    });
-    assert.ok(plugin.configure);
-    assert.ok(plugin.upload);
-    assert.ok(plugin.activate);
-    assert.ok(plugin.fetchRevisions);
-    assert.ok(plugin.fetchInitialRevisions);
+    assert.equal(plugin.name, 's3-index');
   });
 
 
-  describe('fetchInitialRevisions hook', function() {
-    it('fills the initialRevisions variable on context', function() {
-      var plugin;
-      var context;
-
-      plugin = subject.createDeployPlugin({
-        name: 's3-index'
-      });
-
-      context = {
-        ui: mockUi,
-        project: stubProject,
-        config: {
-          's3-index': {
-            prefix: 'test-prefix',
-            filePattern: 'index.html',
-            bucket: 'my-bucket',
-            region: 'my-region',
-            s3DeployClient: function(/* context */) {
-              return {
-                fetchRevisions: function(/* keyPrefix, revisionKey */) {
-                  return Promise.resolve([{
-                    revision: 'a',
-                    active: false
-                  }]);
-                }
-              };
-            }
-          }
-        }
-      };
+  describe('hooks', function() {
+    beforeEach(function() {
       plugin.beforeHook(context);
       plugin.configure(context);
-
-      return assert.isFulfilled(plugin.fetchInitialRevisions(context))
-        .then(function(result) {
-          assert.deepEqual(result, {
-            initialRevisions: [{
-              "active": false,
-              "revision": "a"
-            }]
-          });
-        });
     });
-  });
 
-  describe('fetchRevisions hook', function() {
-    it('fills the revisions variable on context', function() {
-      var plugin;
-      var context;
+    it('implements the correct hooks', function() {
+      assert.ok(plugin.configure);
+      assert.ok(plugin.upload);
+      assert.ok(plugin.activate);
+      assert.ok(plugin.fetchRevisions);
+      assert.ok(plugin.fetchInitialRevisions);
+    });
 
-      plugin = subject.createDeployPlugin({
-        name: 's3-index'
+    describe('#upload', function() {
+      it('passes the correct options to the S3-abstraction', function() {
+        var promise = plugin.upload(context);
+
+        return assert.isFulfilled(promise)
+          .then(function() {
+            var expected = {
+              acl: DEFAULT_ACL,
+              bucket: BUCKET,
+              prefix: DEFAULT_PREFIX,
+              filePattern: DEFAULT_FILE_PATTERN,
+              filePath: DIST_DIR+'/'+DEFAULT_FILE_PATTERN,
+              gzippedFilePaths: [],
+              revisionKey: REVISION_KEY,
+              allowOverwrite: false
+            };
+
+            assert.deepEqual(s3Options, expected);
+          });
       });
 
-      context = {
-        ui: mockUi,
-        project: stubProject,
+      it('passes gzippedFilePaths to S3 based on the `context.gzippedFiles` that ember-cli-deploy-gzip provides', function() {
+        context.gzippedFiles = ['index.html'];
 
-        config: {
-          's3-index': {
-            prefix: 'test-prefix',
-            filePattern: 'index.html',
-            bucket: 'my-bucket',
-            region: 'my-region',
-            s3DeployClient: function(/* context */) {
-              return {
-                fetchRevisions: function(/* keyPrefix, revisionKey */) {
-                  return Promise.resolve([{
-                    revision: 'a',
-                    active: false
-                  }]);
-                }
-              };
-            }
-          }
-        }
-      };
-      plugin.beforeHook(context);
-      plugin.configure(context);
+        var promise = plugin.upload(context);
 
-      return assert.isFulfilled(plugin.fetchRevisions(context))
-        .then(function(result) {
-          assert.deepEqual(result, {
-              revisions: [{
-                "active": false,
-                "revision": "a"
-              }]
+        return assert.isFulfilled(promise)
+          .then(function() {
+            var expected = {
+              acl: DEFAULT_ACL,
+              bucket: BUCKET,
+              prefix: DEFAULT_PREFIX,
+              filePattern: DEFAULT_FILE_PATTERN,
+              filePath: DIST_DIR+'/'+DEFAULT_FILE_PATTERN,
+              gzippedFilePaths: ['index.html'],
+              revisionKey: REVISION_KEY,
+              allowOverwrite: false
+            };
+
+            assert.deepEqual(s3Options, expected);
           });
-        });
+      });
+    });
+
+    describe('#activate', function() {
+      it('passes the correct options to the S3-abstraction', function() {
+        context.commandOptions.revision = '1234';
+
+        var promise = plugin.activate(context);
+
+        return assert.isFulfilled(promise)
+          .then(function() {
+            var expected = {
+              acl: DEFAULT_ACL,
+              bucket: BUCKET,
+              prefix: DEFAULT_PREFIX,
+              filePattern: DEFAULT_FILE_PATTERN,
+              revisionKey: '1234'
+            };
+
+            assert.deepEqual(s3Options, expected);
+          });
+      });
+    });
+
+    describe('#fetchInitialRevisions', function() {
+      it('fills the `initialRevisions`-variable on context', function() {
+        return assert.isFulfilled(plugin.fetchInitialRevisions(context))
+          .then(function(result) {
+            assert.deepEqual(result, {
+              initialRevisions: REVISIONS_DATA
+            });
+          });
+      });
+
+      it('passes the correct options to the S3-abstraction', function() {
+        var promise = plugin.fetchRevisions(context);
+
+        return assert.isFulfilled(promise)
+          .then(function() {
+            var expected = {
+              bucket: BUCKET,
+              prefix: DEFAULT_PREFIX,
+              filePattern: DEFAULT_FILE_PATTERN
+            };
+
+            assert.deepEqual(s3Options, expected);
+          });
+      });
+    });
+
+    describe('#fetchRevisions', function() {
+      it('fills the `revisions`-variable on context', function() {
+        return assert.isFulfilled(plugin.fetchRevisions(context))
+          .then(function(result) {
+            assert.deepEqual(result, {
+                revisions: REVISIONS_DATA
+            });
+          });
+      });
+
+      it('passes the correct options to the S3-abstraction', function() {
+        var promise = plugin.fetchRevisions(context);
+
+        return assert.isFulfilled(promise)
+          .then(function() {
+            var expected = {
+              bucket: BUCKET,
+              prefix: DEFAULT_PREFIX,
+              filePattern: DEFAULT_FILE_PATTERN
+            };
+
+            assert.deepEqual(s3Options, expected);
+          });
+      });
     });
   });
 });

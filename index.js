@@ -1,7 +1,6 @@
 /* jshint node: true */
 'use strict';
 var path             = require('path');
-var Promise          = require('ember-cli/lib/ext/promise');
 var DeployPluginBase = require('ember-cli-deploy-plugin');
 var S3               = require('./lib/s3');
 
@@ -11,6 +10,7 @@ module.exports = {
   createDeployPlugin: function(options) {
     var DeployPlugin = DeployPluginBase.extend({
       name: options.name,
+      S3: options.S3 || S3,
 
       defaultConfig: {
         filePattern: 'index.html',
@@ -26,9 +26,6 @@ module.exports = {
         s3Client: function(context) {
           return context.s3Client; // if you want to provide your own S3 client to be used instead of one from aws-sdk
         },
-        s3DeployClient: function(/* context */) {
-          return new S3({ plugin: this });
-        },
         gzippedFiles: function(context) {
           return context.gzippedFiles || [];
         },
@@ -37,7 +34,7 @@ module.exports = {
 
       requiredConfig: ['bucket', 'region'],
 
-      upload: function(context) {
+      upload: function(/* context */) {
         var bucket         = this.readConfig('bucket');
         var prefix         = this.readConfig('prefix');
         var acl            = this.readConfig('acl');
@@ -61,11 +58,11 @@ module.exports = {
 
         this.log('preparing to upload revision to S3 bucket `' + bucket + '`', { verbose: true });
 
-        var s3 = this.readConfig('s3DeployClient');
+        var s3 = new this.S3({ plugin: this });
         return s3.upload(options);
       },
 
-      activate: function(context) {
+      activate: function(/* context */) {
         var bucket      = this.readConfig('bucket');
         var prefix      = this.readConfig('prefix');
         var acl         = this.readConfig('acl');
@@ -82,7 +79,7 @@ module.exports = {
 
         this.log('preparing to activate `' + revisionKey + '`', { verbose: true });
 
-        var s3 = this.readConfig('s3DeployClient');
+        var s3 = new this.S3({ plugin: this });
         return s3.activate(options);
       },
 
@@ -115,7 +112,7 @@ module.exports = {
           filePattern: filePattern,
         };
 
-        var s3 = this.readConfig('s3DeployClient');
+        var s3 = new this.S3({ plugin: this });
         return s3.fetchRevisions(options);
       }
     });

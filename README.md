@@ -226,7 +226,25 @@ The following is an example policy that meets these requirements:
 
 
 ## Using History-Location
-You can deploy your Ember application to S3 and still use the history-api for pretty URLs. This needs some configuration tweaking in your bucket's static-website-hosting options in the AWS console though. You can use S3's `Redirection Rules`-feature to redirect user's to the correct route based on the URL they are requesting from your app:
+You can deploy your Ember application to S3 and still use the history-api for pretty URLs. This needs some configuration and the exact process depends on whether or not you are using Cloudfront to serve cached content from your S3 bucket or if you are serving from an S3 bucket directly using S3's Static Website Hosting option. Both options work, however, the Cloudfront method allows the process to occur without flashing a non-pretty URL in the browser before the application loads.
+
+### With Cloudfront
+A Cloudfront Custom Error Response can handle catching the 404 error that occurs when a request is made to a pretty URL and can allow that request to be handled by index.html and in turn Ember.
+
+A Custom Error Response can be created for your CloudFront distrubution in the AWS console by navigating to: 
+
+Cloudfront > `Distribution ID` > Error Pages > Create Custom Error Response.
+
+You will want to use the following values.
+
+  * HTTP Error Code: `404: Not Found`
+  * Customized Error Response: `Yes`
+  * Response Page Path: `/index.html`
+  * HTTP Response Code: `200: OK`
+
+### Without Cloudfront
+
+From within the Static Website Hosting options for your S3 bucket, you can use S3's `Redirection Rules`-feature to redirect user's to the correct route based on the URL they are requesting from your app:
 
 ```
 <RoutingRules>

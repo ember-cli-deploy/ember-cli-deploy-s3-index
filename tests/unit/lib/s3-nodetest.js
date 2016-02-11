@@ -1,7 +1,7 @@
 var assert = require('ember-cli/tests/helpers/assert');
 
 describe('s3', function() {
-  var S3, mockUi, s3Client, plugin, subject, options, listParams, headParams, copyParams;
+  var S3, mockUi, s3Client, plugin, subject, options, listParams, headParams, copyParams, revisionsData, currentData;
 
   before(function() {
     S3 = require('../../../lib/s3');
@@ -51,7 +51,7 @@ describe('s3', function() {
           return s3Client;
         }
       },
-      log: function(message, opts) {
+      log: function(message/*, opts */) {
         this.ui.write('|    ');
         this.ui.writeLine('- ' + message);
       }
@@ -66,7 +66,6 @@ describe('s3', function() {
     var filePattern = 'test.html';
     var revisionKey = 'some-revision-key';
     var bucket      = 'some-bucket';
-    var prefix      = 'my-app';
 
     beforeEach(function() {
       options = {
@@ -172,9 +171,6 @@ describe('s3', function() {
 
       return assert.isFulfilled(promise)
         .then(function() {
-          var expectLogOutput = '- ✔  '+prefix+'/'+filePattern+':'+revisionKey;
-          var expectedKey     = prefix+'/'+filePattern+':'+revisionKey;
-
           assert.equal(s3Params.ACL, acl, 'acl passed correctly');
         });
     });

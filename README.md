@@ -130,6 +130,25 @@ The client specified MUST implement functions called `getObject` and `putObject`
 
 *Default:* the default S3 library is `aws-sdk`
 
+### didActivate
+
+A function that can be use to do something after a revision was activated (i.e.
+you deployed a new default revision for all users). The function has access to
+the deployment context. Because of the way ember-cli-deploy reads configuration
+options you have to return the function that should be called from this hook.
+
+Example:
+
+```
+function() {
+  return function(/* deploymentContext */) {
+    return cdn.purge('index.html');
+  };
+}
+```
+
+*Default:* `function() {}`
+
 ### How do I activate a revision?
 
 A user can activate a revision by either:

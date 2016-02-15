@@ -2,6 +2,7 @@
 'use strict';
 var path             = require('path');
 var DeployPluginBase = require('ember-cli-deploy-plugin');
+var Promise          = require('ember-cli/lib/ext/promise');
 var S3               = require('./lib/s3');
 
 module.exports = {
@@ -81,6 +82,13 @@ module.exports = {
 
         var s3 = new this.S3({ plugin: this });
         return s3.activate(options);
+      },
+
+      didActivate: function(context) {
+        var didActivate = this.readConfig('didActivate') || function() {};
+
+        return Promise.resolve()
+          .then(didActivate.bind(this, context));
       },
 
       fetchRevisions: function(context) {

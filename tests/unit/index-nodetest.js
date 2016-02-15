@@ -98,6 +98,7 @@ describe('s3-index plugin', function() {
       assert.ok(plugin.configure);
       assert.ok(plugin.upload);
       assert.ok(plugin.activate);
+      assert.ok(plugin.didActivate);
       assert.ok(plugin.fetchRevisions);
       assert.ok(plugin.fetchInitialRevisions);
     });
@@ -164,6 +165,50 @@ describe('s3-index plugin', function() {
 
             assert.deepEqual(s3Options, expected);
           });
+      });
+    });
+
+    describe('#didActivate', function() {
+      it('calls a user defined function when `didActivate`-property is present in plugin configuration', function() {
+        var didActivateCalled = false;
+
+        context.config['s3-index'].didActivate = function() {
+          return function() {
+            didActivateCalled = true;
+          };
+        };
+
+        var promise = plugin.didActivate(context);
+
+        return assert.isFulfilled(promise)
+          .then(function() {
+            assert.isTrue(didActivateCalled);
+          });
+      });
+
+      it('calls a user defined function that has access to the deployment context', function() {
+        var test = 'awesome';
+
+        context.awesome = 'sauce';
+
+        context.config['s3-index'].didActivate = function() {
+          return function(deployContext) {
+            test = test + deployContext.awesome;
+          };
+        };
+
+        var promise = plugin.didActivate(context);
+
+        return assert.isFulfilled(promise)
+          .then(function() {
+            assert.equal(test, 'awesomesauce');
+          });
+      });
+
+      it('does not break when no didActivate property is present on plugin configuration', function() {
+        var promise = plugin.didActivate(context);
+
+        return assert.isFulfilled(promise);
       });
     });
 

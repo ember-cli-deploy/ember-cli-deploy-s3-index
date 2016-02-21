@@ -1,8 +1,8 @@
 /* jshint node: true */
 'use strict';
-var path             = require('path');
 var DeployPluginBase = require('ember-cli-deploy-plugin');
 var S3               = require('./lib/s3');
+var joinUriSegments  = require('./lib/util/join-uri-segments');
 
 module.exports = {
   name: 'ember-cli-deploy-s3-index',
@@ -43,7 +43,7 @@ module.exports = {
         var filePattern    = this.readConfig('filePattern');
         var gzippedFiles   = this.readConfig('gzippedFiles');
         var allowOverwrite = this.readConfig('allowOverwrite');
-        var filePath    = path.join(distDir, filePattern);
+        var filePath       = joinUriSegments(distDir, filePattern);
 
         var options = {
           bucket: bucket,

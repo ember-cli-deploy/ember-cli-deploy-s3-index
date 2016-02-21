@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-deploy-s3-index",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Ember CLI Deploy plugin to deploy ember-cli's bootstrap index file to S3.",
   "directories": {
     "doc": "doc",

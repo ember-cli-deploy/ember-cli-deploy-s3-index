@@ -1,7 +1,18 @@
 # Change Log
 
-## [0.3.0](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/tree/0.3.0) (2016-02-06)
-[Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/compare/v0.2.0...0.3.0)
+## [v0.3.1](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/tree/0.3.1) (2016-02-21)
+[Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/compare/v0.3.0...v0.3.1)
+
+- [#56](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/56) Remove remaining `path.join` for win-compatibility [@LevelbossMike](https://github.com/LevelbossMike)
+- [#55](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/55) Add appveyor badge [@LevelbossMike](https://github.com/LevelbossMike)
+- [#53](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/53) Add appveyor for windows builds [@LevelbossMike](https://github.com/LevelbossMike)
+- [#51](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/51) Add tests for untested hooks [@LevelbossMike](https://github.com/LevelbossMike)
+- [#50](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/50) Update README to include Cloudfont pretty url config [@jarredkenny](https://github.com/jarredkenny)
+- [#43](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/43) Remove path.join on file upload key [@twaggs](https://github.com/twaggs)
+- [#42](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/42) Fix #27: Conditionally add ContentEncoding:gzip header when index.html is gzipped [@taylon](https://github.com/taylon)
+
+## [v0.3.0](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/tree/0.3.0) (2016-02-06)
+[Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/compare/v0.2.0...v0.3.0)
 
 - add fetchInitialRevisions [\#47](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/47) ([ghedamat](https://github.com/ghedamat))
 - Add mimetype detection based on `filePattern`/`filePath` [\#46](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/46) ([elidupuis](https://github.com/elidupuis))

@@ -137,8 +137,8 @@ describe('s3', function() {
         });
     });
 
-    it('sets the Content-Encoding header to gzip when the index file is gziped', function() {
-      options.gzippedFilePaths = ['index.html'];
+    it('sets the Content-Encoding header to gzip when the index file is gzipped', function() {
+      options.gzippedFilePaths = [filePattern];
       var promise = subject.upload(options);
 
       return assert.isFulfilled(promise)

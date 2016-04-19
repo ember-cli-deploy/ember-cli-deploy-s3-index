@@ -1,4 +1,4 @@
-var assert = require('ember-cli/tests/helpers/assert');
+var assert = require('./../../helpers/assert');
 
 describe('s3', function() {
   var S3, mockUi, s3Client, plugin, subject, options, listParams, headParams, copyParams, revisionsData, currentData;

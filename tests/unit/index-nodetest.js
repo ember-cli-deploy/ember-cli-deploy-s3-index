@@ -20,6 +20,7 @@ describe('s3-index plugin', function() {
   var DEFAULT_PREFIX          = '';
   var DEFAULT_FILE_PATTERN    = 'index.html';
   var DEFAULT_ACL             = 'public-read';
+  var DEFAULT_CACHE_CONTROL   = 'max-age=0, no-cache';
 
   function s3Stub(returnValue) {
     return function(options) {
@@ -110,6 +111,31 @@ describe('s3-index plugin', function() {
           .then(function() {
             var expected = {
               acl: DEFAULT_ACL,
+              cacheControl: DEFAULT_CACHE_CONTROL,
+              bucket: BUCKET,
+              prefix: DEFAULT_PREFIX,
+              filePattern: DEFAULT_FILE_PATTERN,
+              filePath: DIST_DIR+'/'+DEFAULT_FILE_PATTERN,
+              gzippedFilePaths: [],
+              revisionKey: REVISION_KEY,
+              allowOverwrite: false
+            };
+
+            assert.deepEqual(s3Options, expected);
+          });
+      });
+
+      it('passes cacheControl options based on the cacheControl option to the s3-abstraction', function() {
+        var cacheControl = 'max-age=3600';
+        context.config['s3-index'].cacheControl = cacheControl;
+
+        var promise = plugin.upload(context);
+
+        return assert.isFulfilled(promise)
+          .then(function() {
+            var expected = {
+              acl: DEFAULT_ACL,
+              cacheControl: cacheControl,
               bucket: BUCKET,
               prefix: DEFAULT_PREFIX,
               filePattern: DEFAULT_FILE_PATTERN,
@@ -132,6 +158,7 @@ describe('s3-index plugin', function() {
           .then(function() {
             var expected = {
               acl: DEFAULT_ACL,
+              cacheControl: DEFAULT_CACHE_CONTROL,
               bucket: BUCKET,
               prefix: DEFAULT_PREFIX,
               filePattern: DEFAULT_FILE_PATTERN,

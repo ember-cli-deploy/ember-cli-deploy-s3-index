@@ -105,6 +105,12 @@ The ACL to apply to the objects.
 
 *Default:* `'public-read'`
 
+### cacheControl
+
+Sets the `Cache-Control` header on uploaded files.
+
+*Default:* `'max-age=0, no-cache'`
+
 ### distDir
 
 The root directory where the file matching `filePattern` will be searched for. By default, this option will use the `distDir` property of the deployment context.

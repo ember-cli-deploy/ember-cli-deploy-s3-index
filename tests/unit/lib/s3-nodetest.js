@@ -72,6 +72,7 @@ describe('s3', function() {
         bucket: bucket,
         prefix: '',
         acl: 'public-read',
+        cacheControl: 'max-age=0, no-cache',
         gzippedFilePaths: [],
         filePattern: filePattern,
         revisionKey: revisionKey,
@@ -172,6 +173,20 @@ describe('s3', function() {
       return assert.isFulfilled(promise)
         .then(function() {
           assert.equal(s3Params.ACL, acl, 'acl passed correctly');
+        });
+    });
+
+    it('allows `cacheControl` option to be passed to customize the used cache-control', function() {
+      var cacheControl = 'max-age=3600';
+
+      options.cacheControl = cacheControl;
+
+      var promise = subject.upload(options);
+
+      return assert.isFulfilled(promise)
+        .then(function() {
+          assert.equal(s3Params.CacheControl, cacheControl, 'cache-control passed correctly');
+
         });
     });
 

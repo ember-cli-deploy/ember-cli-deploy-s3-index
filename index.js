@@ -16,6 +16,7 @@ module.exports = {
         filePattern: 'index.html',
         prefix: '',
         acl: 'public-read',
+        cacheControl: 'max-age=0, no-cache',
         distDir: function(context) {
           return context.distDir;
         },
@@ -38,6 +39,7 @@ module.exports = {
         var bucket         = this.readConfig('bucket');
         var prefix         = this.readConfig('prefix');
         var acl            = this.readConfig('acl');
+        var cacheControl   = this.readConfig('cacheControl');
         var revisionKey    = this.readConfig('revisionKey');
         var distDir        = this.readConfig('distDir');
         var filePattern    = this.readConfig('filePattern');
@@ -49,6 +51,7 @@ module.exports = {
           bucket: bucket,
           prefix: prefix,
           acl: acl,
+          cacheControl: cacheControl,
           filePattern: filePattern,
           filePath: filePath,
           revisionKey: revisionKey,

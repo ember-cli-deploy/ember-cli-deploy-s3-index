@@ -1,12 +1,12 @@
 # Change Log
 
 ## [0.5.0](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/tree/0.5.0) (2016-05-12)
-[Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/compare/v0.4.0...0.5.0)
+[Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/compare/v0.4.0...v0.5.0)
 
 - Allow cache-control headers to be set by options [#63](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/63) [@LevelbossMike](https://github.com/LevelbossMike)
 
 ## [0.4.0](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/tree/0.4.0) (2016-04-01)
-[Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/compare/v0.3.1...0.4.0)
+[Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/compare/v0.3.1...v0.4.0)
 
 - Take `filePattern` into account when determining `isGzipped` status [\#59](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/59) ([elidupuis](https://github.com/elidupuis))
 

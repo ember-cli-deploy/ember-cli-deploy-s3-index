@@ -138,6 +138,14 @@ The client specified MUST implement functions called `getObject` and `putObject`
 
 *Default:* the default S3 library is `aws-sdk`
 
+### serverSideEncryption
+
+The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms). Possible values include:
+  - "AES256"
+  - "aws:kms"
+
+*Default:* `undefined`
+
 ### How do I activate a revision?
 
 A user can activate a revision by either:
@@ -239,7 +247,7 @@ You can deploy your Ember application to S3 and still use the history-api for pr
 ### With Cloudfront
 A Cloudfront Custom Error Response can handle catching the 404 error that occurs when a request is made to a pretty URL and can allow that request to be handled by index.html and in turn Ember.
 
-A Custom Error Response can be created for your CloudFront distrubution in the AWS console by navigating to: 
+A Custom Error Response can be created for your CloudFront distrubution in the AWS console by navigating to:
 
 Cloudfront > `Distribution ID` > Error Pages > Create Custom Error Response.
 

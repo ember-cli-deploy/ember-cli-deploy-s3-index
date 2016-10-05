@@ -57,8 +57,7 @@ module.exports = {
           filePath: filePath,
           revisionKey: revisionKey,
           gzippedFilePaths: gzippedFiles,
-          allowOverwrite: allowOverwrite,
-          serverSideEncryption: serverSideEncryption
+          allowOverwrite: allowOverwrite
         };
 
         if (serverSideEncryption) {

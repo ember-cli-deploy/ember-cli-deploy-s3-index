@@ -125,6 +125,25 @@ describe('s3', function() {
         });
     });
 
+    it('detects serverSideEncryption when defined', function() {
+      options.serverSideEncryption = 'AES256';
+      var promise = subject.upload(options);
+
+      return assert.isFulfilled(promise)
+        .then(function() {
+          assert.equal(s3Params.ServerSideEncryption, 'AES256', 'serverSideEncryption passed correctly');
+        });
+    });
+
+    it('filters serverSideEncryption when not defined', function() {
+      var promise = subject.upload(options);
+
+      return assert.isFulfilled(promise)
+        .then(function() {
+          assert.equal(s3Params.hasOwnProperty('serverSideEncryption'), false, 'serverSideEncryption filtered correctly');
+        });
+    });
+
     it('detects `filePattern` other than `index.html` in order to customize ContentType', function() {
       var filePath = 'tests/unit/fixtures/test.tar';
 

@@ -125,6 +125,25 @@ describe('s3-index plugin', function() {
           });
       });
 
+      it('detects serverSideEncryption when defined', function() {
+        context.config['s3-index'].serverSideEncryption = 'AES256';
+        var promise = plugin.upload(context);
+
+        return assert.isFulfilled(promise)
+          .then(function() {
+            assert.equal(s3Options.serverSideEncryption, 'AES256', 'serverSideEncryption passed correctly');
+          });
+      });
+
+      it('filters serverSideEncryption when not defined', function() {
+        var promise = plugin.upload(context);
+
+        return assert.isFulfilled(promise)
+          .then(function() {
+            assert.equal(s3Options.hasOwnProperty('serverSideEncryption'), false, 'serverSideEncryption filtered correctly');
+          });
+      });
+
       it('passes cacheControl options based on the cacheControl option to the s3-abstraction', function() {
         var cacheControl = 'max-age=3600';
         context.config['s3-index'].cacheControl = cacheControl;

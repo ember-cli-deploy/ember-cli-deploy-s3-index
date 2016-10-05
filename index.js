@@ -61,6 +61,10 @@ module.exports = {
           serverSideEncryption: serverSideEncryption
         };
 
+        if (serverSideEncryption) {
+          options.serverSideEncryption = serverSideEncryption;
+        }
+
         this.log('preparing to upload revision to S3 bucket `' + bucket + '`', { verbose: true });
 
         var s3 = new this.S3({ plugin: this });

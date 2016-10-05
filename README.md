@@ -144,8 +144,6 @@ The Server-side encryption algorithm used when storing this object in S3 (e.g., 
   - "AES256"
   - "aws:kms"
 
-*Default:* `undefined`
-
 ### How do I activate a revision?
 
 A user can activate a revision by either:

@@ -118,8 +118,7 @@ describe('s3-index plugin', function() {
               filePath: DIST_DIR+'/'+DEFAULT_FILE_PATTERN,
               gzippedFilePaths: [],
               revisionKey: REVISION_KEY,
-              allowOverwrite: false,
-              serverSideEncryption: undefined
+              allowOverwrite: false
             };
 
             assert.deepEqual(s3Options, expected);
@@ -143,8 +142,7 @@ describe('s3-index plugin', function() {
               filePath: DIST_DIR+'/'+DEFAULT_FILE_PATTERN,
               gzippedFilePaths: [],
               revisionKey: REVISION_KEY,
-              allowOverwrite: false,
-              serverSideEncryption: undefined
+              allowOverwrite: false
             };
 
             assert.deepEqual(s3Options, expected);
@@ -167,8 +165,7 @@ describe('s3-index plugin', function() {
               filePath: DIST_DIR+'/'+DEFAULT_FILE_PATTERN,
               gzippedFilePaths: ['index.html'],
               revisionKey: REVISION_KEY,
-              allowOverwrite: false,
-              serverSideEncryption: undefined
+              allowOverwrite: false
             };
 
             assert.deepEqual(s3Options, expected);

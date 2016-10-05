@@ -211,6 +211,25 @@ describe('s3-index plugin', function() {
             assert.deepEqual(s3Options, expected);
           });
       });
+
+      it('detects serverSideEncryption when defined', function() {
+        context.config['s3-index'].serverSideEncryption = 'AES256';
+        var promise = plugin.activate(context);
+
+        return assert.isFulfilled(promise)
+          .then(function() {
+            assert.equal(s3Options.serverSideEncryption, 'AES256', 'serverSideEncryption passed correctly');
+          });
+      });
+
+      it('filters serverSideEncryption when not defined', function() {
+        var promise = plugin.activate(context);
+
+        return assert.isFulfilled(promise)
+          .then(function() {
+            assert.equal(s3Options.hasOwnProperty('serverSideEncryption'), false, 'serverSideEncryption filtered correctly');
+          });
+      });
     });
 
     describe('#fetchInitialRevisions', function() {

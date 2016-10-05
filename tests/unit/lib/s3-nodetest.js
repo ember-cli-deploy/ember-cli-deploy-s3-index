@@ -365,6 +365,25 @@ describe('s3', function() {
             assert.equal(copyParams.ACL, acl);
           });
       });
+
+      it('detects serverSideEncryption when defined', function() {
+        options.serverSideEncryption = 'AES256';
+        var promise = subject.activate(options);
+
+        return assert.isFulfilled(promise)
+          .then(function() {
+            assert.equal(copyParams.ServerSideEncryption, 'AES256', 'serverSideEncryption passed correctly');
+          });
+      });
+
+      it('filters serverSideEncryption when not defined', function() {
+        var promise = subject.activate(options);
+
+        return assert.isFulfilled(promise)
+          .then(function() {
+            assert.equal(copyParams.hasOwnProperty('serverSideEncryption'), false, 'serverSideEncryption filtered correctly');
+          });
+      });
     });
 
     describe('with an invalid revision key', function() {

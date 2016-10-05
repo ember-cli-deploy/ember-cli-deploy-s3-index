@@ -71,11 +71,12 @@ module.exports = {
       },
 
       activate: function(/* context */) {
-        var bucket      = this.readConfig('bucket');
-        var prefix      = this.readConfig('prefix');
-        var acl         = this.readConfig('acl');
-        var revisionKey = this.readConfig('revisionKey');
-        var filePattern = this.readConfig('filePattern');
+        var bucket                = this.readConfig('bucket');
+        var prefix                = this.readConfig('prefix');
+        var acl                   = this.readConfig('acl');
+        var revisionKey           = this.readConfig('revisionKey');
+        var filePattern           = this.readConfig('filePattern');
+        var serverSideEncryption  = this.readConfig('serverSideEncryption');
 
         var options = {
           bucket: bucket,
@@ -84,6 +85,10 @@ module.exports = {
           filePattern: filePattern,
           revisionKey: revisionKey,
         };
+
+        if (serverSideEncryption) {
+          options.serverSideEncryption = serverSideEncryption;
+        }
 
         this.log('preparing to activate `' + revisionKey + '`', { verbose: true });
 

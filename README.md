@@ -274,6 +274,9 @@ From within the Static Website Hosting options for your S3 bucket, you can use S
 </RoutingRules>
 ```
 
+## Previewing Revisions
+If you'd like to be able to preview a deployed revision before activation, you'll need some additional setup. See [this article](http://blog.firstiwaslike.com/previewing-revisions-with-ember-cli-deploy-s3-index/) for more information.
+
 ## Running Tests
 
 - `npm test`

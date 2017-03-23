@@ -284,6 +284,50 @@ describe('s3', function() {
           assert.equal(headParams.Key, expectedKey);
         });
     });
+
+    it('correctly pages s3#listObjects calls when necessary', function() {
+
+      var revisions = [
+        { Key: 'test.html:111', LastModified: new Date('September 27, 2015 01:00:00'), ETag: '111' },
+        { Key: 'test.html:222', LastModified: new Date('September 27, 2015 02:00:00') , ETag: '222' },
+        { Key: 'test.html:333', LastModified: new Date('September 27, 2015 03:00:00') , ETag: '333' },
+        { Key: 'test.html:444', LastModified: new Date('September 27, 2015 04:00:00') , ETag: '444' },
+        { Key: 'test.html:555', LastModified: new Date('September 27, 2015 05:00:00') , ETag: '555' },
+        { Key: 'test.html:666', LastModified: new Date('September 27, 2015 06:00:00') , ETag: '666' },
+        { Key: 'test.html:777', LastModified: new Date('September 27, 2015 07:00:00') , ETag: '777' },
+        { Key: 'test.html:888', LastModified: new Date('September 27, 2015 08:00:00') , ETag: '888' },
+        { Key: 'test.html:999', LastModified: new Date('September 27, 2015 09:00:00') , ETag: '999' },
+        { Key: 'test.html:000', LastModified: new Date('September 27, 2015 10:00:00') , ETag: '000' },
+      ];
+
+      var resultsPerPage = 4;
+      var listObjectCalls = [];
+
+      s3Client.listObjects = function(params, cb) {
+        listObjectCalls.push(params.Marker);
+        var offset = 0;
+        offset = revisions.map(function(revision) {
+          return revision.Key;
+        }).indexOf(params.Marker) + 1;
+        var lastResult = offset + resultsPerPage;
+
+        cb(undefined, {
+          Contents: revisions.slice(offset, lastResult),
+          IsTruncated: lastResult < revisions.length,
+        });
+      };
+
+      var promise = subject.fetchRevisions(options);
+
+      return assert.isFulfilled(promise)
+        .then(function(revisionsData) {
+          assert.equal(revisionsData.length, revisions.length, 'All revisions are available');
+          assert.equal(listObjectCalls.length, 3, 'listObjects was called 3 times');
+          assert.equal(listObjectCalls[0], undefined, 'the first call to listObjects had the expected marker');
+          assert.equal(listObjectCalls[1], 'test.html:444', 'the second call to listObjects had the expected marker');
+          assert.equal(listObjectCalls[2], 'test.html:888', 'the third call to listObjects had the expected marker');
+        });
+    });
   });
 
   describe('#activate', function() {

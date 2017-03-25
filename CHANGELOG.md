@@ -1,28 +1,48 @@
 # Change Log
 
-## [0.5.0](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/tree/0.5.0) (2016-05-12)
+## [v1.0.0-beta.0](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/tree/v1.0.0-beta.0) (2017-03-25)
+[Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/compare/v0.5.0...v1.0.0-beta.0)
+
+**Merged pull requests:**
+
+- Upgrade ember-cli & embrace being a node-only ember-cli addon [\#72](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/72) ([lukemelia](https://github.com/lukemelia))
+- \[DOC\] Link to previewing revisions article [\#69](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/69) ([blimmer](https://github.com/blimmer))
+- Add Server Side Encryption [\#67](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/67) ([sethpollack](https://github.com/sethpollack))
+- Update config example to reflect required parameters [\#66](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/66) ([crhayes](https://github.com/crhayes))
+
+## [v0.5.0](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/tree/v0.5.0) (2016-05-12)
 [Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/compare/v0.4.0...v0.5.0)
 
-- Allow cache-control headers to be set by options [#63](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/63) [@LevelbossMike](https://github.com/LevelbossMike)
+**Merged pull requests:**
 
-## [0.4.0](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/tree/0.4.0) (2016-04-01)
+- Allow cache-control headers to be set by options [\#63](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/63) ([LevelbossMike](https://github.com/LevelbossMike))
+- Upgrade ember-cli to 2.5.0 [\#62](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/62) ([LevelbossMike](https://github.com/LevelbossMike))
+
+## [v0.4.0](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/tree/v0.4.0) (2016-04-01)
 [Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/compare/v0.3.1...v0.4.0)
+
+**Merged pull requests:**
 
 - Take `filePattern` into account when determining `isGzipped` status [\#59](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/59) ([elidupuis](https://github.com/elidupuis))
 
-## [v0.3.1](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/tree/0.3.1) (2016-02-21)
+## [v0.3.1](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/tree/v0.3.1) (2016-02-21)
 [Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/compare/v0.3.0...v0.3.1)
 
-- [#56](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/56) Remove remaining `path.join` for win-compatibility [@LevelbossMike](https://github.com/LevelbossMike)
-- [#55](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/55) Add appveyor badge [@LevelbossMike](https://github.com/LevelbossMike)
-- [#53](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/53) Add appveyor for windows builds [@LevelbossMike](https://github.com/LevelbossMike)
-- [#51](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/51) Add tests for untested hooks [@LevelbossMike](https://github.com/LevelbossMike)
-- [#50](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/50) Update README to include Cloudfont pretty url config [@jarredkenny](https://github.com/jarredkenny)
-- [#43](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/43) Remove path.join on file upload key [@twaggs](https://github.com/twaggs)
-- [#42](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/42) Fix #27: Conditionally add ContentEncoding:gzip header when index.html is gzipped [@taylon](https://github.com/taylon)
+**Merged pull requests:**
 
-## [v0.3.0](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/tree/0.3.0) (2016-02-06)
+- Release v0.3.1 [\#57](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/57) ([LevelbossMike](https://github.com/LevelbossMike))
+- Remove remaining `path.join` for win-compatibility [\#56](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/56) ([LevelbossMike](https://github.com/LevelbossMike))
+- Add appveyor badge [\#55](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/55) ([LevelbossMike](https://github.com/LevelbossMike))
+- Add appveyor for windows builds [\#53](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/53) ([LevelbossMike](https://github.com/LevelbossMike))
+- Add tests for untested hooks [\#51](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/51) ([LevelbossMike](https://github.com/LevelbossMike))
+- Update README to include Cloudfont pretty url config [\#50](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/50) ([jarredkenny](https://github.com/jarredkenny))
+- Remove path.join on file upload key [\#43](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/43) ([twaggs](https://github.com/twaggs))
+- Fix \#27: Conditionally add ContentEncoding:gzip header when index.html is gzipped [\#42](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/42) ([taylon](https://github.com/taylon))
+
+## [v0.3.0](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/tree/v0.3.0) (2016-02-06)
 [Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/compare/v0.2.0...v0.3.0)
+
+**Merged pull requests:**
 
 - add fetchInitialRevisions [\#47](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/47) ([ghedamat](https://github.com/ghedamat))
 - Add mimetype detection based on `filePattern`/`filePath` [\#46](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/46) ([elidupuis](https://github.com/elidupuis))
@@ -36,6 +56,8 @@
 ## [v0.2.0](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/tree/v0.2.0) (2015-12-31)
 [Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/compare/v0.1.1...v0.2.0)
 
+**Merged pull requests:**
+
 - Add missing assignment [\#34](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/34) ([backspace](https://github.com/backspace))
 - Loosen AWS option requirements [\#33](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/33) ([quiddle](https://github.com/quiddle))
 - \[BREAKING\] Make `region` a required configuration. [\#31](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/31) ([LevelbossMike](https://github.com/LevelbossMike))
@@ -43,6 +65,8 @@
 
 ## [v0.1.1](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/tree/v0.1.1) (2015-12-13)
 [Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/compare/v0.1.0...v0.1.1)
+
+**Merged pull requests:**
 
 - update link to ember-cli-deploy-build [\#26](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/26) ([csantero](https://github.com/csantero))
 - Add support for ACL on objects [\#24](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/24) ([flecno](https://github.com/flecno))
@@ -52,10 +76,13 @@
 ## [v0.1.0](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/tree/v0.1.0) (2015-10-25)
 [Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/compare/v0.1.0-beta.1...v0.1.0)
 
+**Merged pull requests:**
+
 - Release 0.1.0 [\#14](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/14) ([LevelbossMike](https://github.com/LevelbossMike))
 - Update to use new verbose option for logging [\#13](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/13) ([lukemelia](https://github.com/lukemelia))
 
 ## [v0.1.0-beta.1](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/tree/v0.1.0-beta.1) (2015-10-19)
+**Merged pull requests:**
 
 - Release v0.1.0-beta.1 [\#12](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/12) ([LevelbossMike](https://github.com/LevelbossMike))
 - Add `allowOverwrite` option [\#11](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/11) ([LevelbossMike](https://github.com/LevelbossMike))
@@ -69,3 +96,6 @@
 - Added function keyword [\#2](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/2) ([vitch](https://github.com/vitch))
 - \[WIP\] Retrieve revisionKey from revisionData [\#1](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/1) ([achambers](https://github.com/achambers))
 
+
+
+\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*

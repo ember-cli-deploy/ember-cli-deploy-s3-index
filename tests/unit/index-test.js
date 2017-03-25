@@ -1,7 +1,7 @@
 'use strict';
 
 var CoreObject = require('core-object');
-var Promise    = require('ember-cli/lib/ext/promise');
+var RSVP       = require('rsvp');
 var assert     = require('./../helpers/assert');
 
 var stubProject = {
@@ -25,7 +25,7 @@ describe('s3-index plugin', function() {
   function s3Stub(returnValue) {
     return function(options) {
       s3Options = options;
-      return Promise.resolve(returnValue);
+      return RSVP.resolve(returnValue);
     };
   }
 

@@ -7,44 +7,25 @@
     "test": "tests"
   },
   "scripts": {
-    "build": "ember build",
-    "start": "ember server",
-    "test": "node tests/runner.js"
+    "test": "node tests/runner.js && ./node_modules/.bin/eslint index.js lib/* tests/**/*.js"
   },
   "repository": "https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index",
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 4"
   },
   "author": "",
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.2",
-    "chai": "^3.3.0",
-    "chai-as-promised": "^5.1.0",
-    "ember-cli": "2.5.0",
-    "ember-ajax": "0.7.1",
-    "ember-cli-app-version": "^1.0.0",
-    "ember-cli-dependency-checker": "^1.2.0",
-    "ember-cli-htmlbars": "^1.0.3",
-    "ember-cli-htmlbars-inline-precompile": "^0.3.1",
-    "ember-cli-inject-live-reload": "^1.4.0",
-    "ember-cli-jshint": "^1.0.0",
-    "ember-cli-qunit": "^1.4.0",
-    "ember-cli-release": "0.2.8",
-    "ember-cli-sri": "^2.1.0",
-    "ember-cli-uglify": "^1.2.0",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
+    "ember-cli": "^2.12.0",
+    "ember-cli-release": "1.0.0-beta.2",
+    "eslint": "^3.18.0",
     "github": "^0.2.4",
-    "glob": "^5.0.15",
-    "mocha": "^2.3.3",
-    "mocha-jshint": "^2.3.1",
-    "multiline": "^1.0.2",
-    "ember-data": "^2.5.0",
-    "ember-disable-prototype-extensions": "^1.1.0",
-    "ember-export-application-global": "^1.0.5",
-    "ember-load-initializers": "^0.5.1",
-    "ember-resolver": "^2.0.3",
-    "ember-try": "^0.2.2",
-    "loader.js": "^4.0.1"
+    "glob": "^7.1.1",
+    "mocha": "^3.2.0",
+    "multiline": "^1.0.2"
   },
   "keywords": [
     "ember-addon",
@@ -52,12 +33,9 @@
   ],
   "dependencies": {
     "aws-sdk": "^2.1.48",
-    "core-object": "^1.1.0",
-    "ember-cli-babel": "^5.1.6",
-    "ember-cli-deploy-plugin": "^0.2.1",
-    "mime-types": "^2.1.9"
-  },
-  "ember-addon": {
-    "configPath": "tests/dummy/config"
+    "core-object": "^2.0.6",
+    "ember-cli-deploy-plugin": "^0.2.9",
+    "mime-types": "^2.1.9",
+    "rsvp": "^3.0.18"
   }
 }

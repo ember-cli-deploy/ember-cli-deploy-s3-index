@@ -1,5 +1,10 @@
 # Change Log
 
+## [v1.0.0](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/tree/v1.0.0) (2017-03-31)
+[Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/compare/v1.0.0-beta.1...v1.0.0)
+
+No changes from beta.1
+
 ## [v1.0.0-beta.1](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/tree/v1.0.0-beta.1) (2017-03-31)
 [Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/compare/v1.0.0-beta.0...v1.0.0-beta.1)
 

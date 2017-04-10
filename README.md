@@ -264,7 +264,7 @@ From within the Static Website Hosting options for your S3 bucket, you can use S
 <RoutingRules>
     <RoutingRule>
         <Condition>
-            <HttpErrorCodeReturnedEquals>403</HttpErrorCodeReturnedEquals>
+            <HttpErrorCodeReturnedEquals>404</HttpErrorCodeReturnedEquals>
         </Condition>
         <Redirect>
             <HostName><your-bucket-endpoint-from-static-website-hosting-options></HostName>

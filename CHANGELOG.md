@@ -1,5 +1,12 @@
 # Change Log
 
+## [v1.0.1](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/tree/v1.0.1)
+[Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/compare/v1.0.0...v1.0.1)
+
+- [#74](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/74) add support for AWS credential profile [@VertekCorp](https://github.com/VertekCorp)
+
+Thank you to all who took the time to contribute!
+
 ## [v1.0.0](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/tree/v1.0.0) (2017-03-31)
 [Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/compare/v1.0.0-beta.1...v1.0.0)
 

@@ -16,7 +16,7 @@ module.exports = {
         filePattern: 'index.html',
         prefix: '',
         acl: 'public-read',
-        cacheControl: 'max-age=0, no-cache',
+        cacheControl: 'private, no-store',
         distDir: function(context) {
           return context.distDir;
         },

@@ -20,7 +20,7 @@ describe('s3-index plugin', function() {
   var DEFAULT_PREFIX          = '';
   var DEFAULT_FILE_PATTERN    = 'index.html';
   var DEFAULT_ACL             = 'public-read';
-  var DEFAULT_CACHE_CONTROL   = 'max-age=0, no-cache';
+  var DEFAULT_CACHE_CONTROL   = 'private, no-store';
 
   function s3Stub(returnValue) {
     return function(options) {

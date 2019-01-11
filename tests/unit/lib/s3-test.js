@@ -72,7 +72,7 @@ describe('s3', function() {
         bucket: bucket,
         prefix: '',
         acl: 'public-read',
-        cacheControl: 'max-age=0, no-cache',
+        cacheControl: 'private, no-store',
         gzippedFilePaths: [],
         filePattern: filePattern,
         revisionKey: revisionKey,
@@ -121,7 +121,7 @@ describe('s3', function() {
           assert.equal(s3Params.Key, expectedKey, 'Key passed correctly');
           assert.equal(s3Params.ACL, defaultACL, 'ACL defaults to `public-read`');
           assert.equal(s3Params.ContentType, 'text/html', 'contentType is set to `text/html`');
-          assert.equal(s3Params.CacheControl, 'max-age=0, no-cache', 'cacheControl set correctly');
+          assert.equal(s3Params.CacheControl, 'private, no-store', 'cacheControl set correctly');
         });
     });
 

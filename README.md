@@ -116,7 +116,7 @@ The ACL to apply to the objects.
 
 Sets the `Cache-Control` header on uploaded files.
 
-*Default:* `'max-age=0, no-cache'`
+*Default:* `'private, no-store'`
 
 ### distDir
 

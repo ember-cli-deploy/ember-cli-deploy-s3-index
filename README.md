@@ -221,7 +221,7 @@ This plugin requires the following permissions on your Amazon S3 access policy:
   * For the files on the bucket:
     * s3:GetObject
     * s3:PutObject
-    * s3:PutObjectACL
+    * s3:PutObjectAcl
 
 The following is an example policy that meets these requirements:
 
@@ -233,7 +233,7 @@ The following is an example policy that meets these requirements:
                 "Action": [
                     "s3:GetObject",
                     "s3:PutObject",
-                    "s3:PutObjectACL",
+                    "s3:PutObjectAcl",
                     "s3:ListBucket"
                 ],
                 "Resource": [

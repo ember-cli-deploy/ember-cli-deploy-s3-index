@@ -264,6 +264,11 @@ You will want to use the following values.
 
 ### Without Cloudfront
 
+
+<hr/>
+**WARNING: ⚠️ This solution might not work in all browsers. See [this issue](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/issues/68) for details.
+<hr/>
+
 From within the Static Website Hosting options for your S3 bucket, you can use S3's `Redirection Rules`-feature to redirect user's to the correct route based on the URL they are requesting from your app:
 
 ```

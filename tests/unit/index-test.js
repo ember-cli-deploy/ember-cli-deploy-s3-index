@@ -140,7 +140,7 @@ describe('s3-index plugin', function() {
 
         return assert.isFulfilled(promise)
           .then(function() {
-            assert.equal(s3Options.hasOwnProperty('serverSideEncryption'), false, 'serverSideEncryption filtered correctly');
+            assert.equal(Object.prototype.hasOwnProperty.call(s3Options, 'serverSideEncryption'), false, 'serverSideEncryption filtered correctly');
           });
       });
 
@@ -227,7 +227,7 @@ describe('s3-index plugin', function() {
 
         return assert.isFulfilled(promise)
           .then(function() {
-            assert.equal(s3Options.hasOwnProperty('serverSideEncryption'), false, 'serverSideEncryption filtered correctly');
+            assert.equal(Object.prototype.hasOwnProperty.call(s3Options, 'serverSideEncryption'), false, 'serverSideEncryption filtered correctly');
           });
       });
     });

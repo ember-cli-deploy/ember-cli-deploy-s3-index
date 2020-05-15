@@ -144,6 +144,16 @@ The client specified MUST implement functions called `getObject` and `putObject`
 
 *Default:* the default S3 library is `aws-sdk`
 
+### endpoint
+
+AWS (or AWS compatible endpoint) to use. E.g. with DigitalOcean Spaces, Microsoft Azure Blob Storage,
+or Openstack Swift
+
+If `endpoint` set the `region` option will be ignored.
+
+*Default:* `[region].s3.amazonaws.com` 
+
+
 ### serverSideEncryption
 
 The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms). Possible values include:

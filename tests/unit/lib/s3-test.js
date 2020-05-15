@@ -195,6 +195,27 @@ describe('s3', function() {
         });
     });
 
+    it('allows `endpoint` option to be passed to customize storage', function() {
+      var endpoint = 'foo.bar.baz';
+      subject = new S3({
+        plugin: Object.assign(plugin, {
+          readConfig: function(propertyName) {
+            if (propertyName === 's3Client') {
+              return s3Client;
+            } else if (propertyName === 'endpoint') {
+              return endpoint;
+            }
+          }
+        })
+      });
+      var promise = subject.upload(options);
+      return assert.isFulfilled(promise)
+        .then(function() {
+          assert.equal(require('aws-sdk').config.endpoint.host, endpoint, 'Endpoint in SDK is correct');
+          assert.equal(mockUi.messages[0], '- Using endpoint from config', 'Prefix is included in log output');
+        });
+    });
+
     it('allows `cacheControl` option to be passed to customize the used cache-control', function() {
       var cacheControl = 'max-age=3600';
 

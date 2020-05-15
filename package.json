@@ -7,6 +7,7 @@
     "test": "tests"
   },
   "scripts": {
+    "release": "release-it",
     "test": "node tests/runner.js && ./node_modules/.bin/eslint index.js lib/* tests/**/*.js"
   },
   "repository": "https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index",
@@ -16,26 +17,33 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "broccoli-asset-rev": "^2.4.2",
-    "chai": "^3.5.0",
-    "chai-as-promised": "^6.0.0",
-    "ember-cli": "~3.17.0",
-    "ember-cli-release": "1.0.0-beta.2",
-    "eslint": "^4.18.2",
     "github": "^0.2.4",
-    "glob": "^7.1.1",
-    "mocha": "^3.2.0",
-    "multiline": "^1.0.2"
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "ember-cli": "~3.18.0",
+    "eslint": "^7.0.0",
+    "glob": "^7.1.6",
+    "mocha": "^7.1.2",
+    "release-it": "*"
   },
   "keywords": [
     "ember-addon",
     "ember-cli-deploy-plugin"
   ],
   "dependencies": {
-    "aws-sdk": "^2.1.48",
-    "core-object": "^2.0.6",
+    "aws-sdk": "^2.667.0",
+    "core-object": "^3.0.0",
     "ember-cli-deploy-plugin": "^0.2.9",
-    "mime-types": "^2.1.9",
-    "rsvp": "^3.0.18"
+    "mime-types": "^2.1.27",
+    "rsvp": "^4.8.5"
+  },
+  "release-it": {
+    "git": {
+      "changelog": "./bin/changelog",
+      "requireCleanWorkingDir": false
+    },
+    "github": {
+      "release": true
+    }
   }
 }

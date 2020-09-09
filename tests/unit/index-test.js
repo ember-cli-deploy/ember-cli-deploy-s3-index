@@ -117,6 +117,7 @@ describe('s3-index plugin', function() {
               filePattern: DEFAULT_FILE_PATTERN,
               filePath: DIST_DIR+'/'+DEFAULT_FILE_PATTERN,
               gzippedFilePaths: [],
+              brotliCompressedFilePaths: [],
               revisionKey: REVISION_KEY,
               allowOverwrite: false
             };
@@ -160,6 +161,7 @@ describe('s3-index plugin', function() {
               filePattern: DEFAULT_FILE_PATTERN,
               filePath: DIST_DIR+'/'+DEFAULT_FILE_PATTERN,
               gzippedFilePaths: [],
+              brotliCompressedFilePaths: [],
               revisionKey: REVISION_KEY,
               allowOverwrite: false
             };
@@ -183,6 +185,31 @@ describe('s3-index plugin', function() {
               filePattern: DEFAULT_FILE_PATTERN,
               filePath: DIST_DIR+'/'+DEFAULT_FILE_PATTERN,
               gzippedFilePaths: ['index.html'],
+              brotliCompressedFilePaths: [],
+              revisionKey: REVISION_KEY,
+              allowOverwrite: false
+            };
+
+            assert.deepEqual(s3Options, expected);
+          });
+      });
+
+      it('passes brotliCompressedFilePaths to S3 based on the `context.brotliCompressedFiles` that ember-cli-deploy-compress provides', function() {
+        context.brotliCompressedFiles = ['index.html'];
+
+        var promise = plugin.upload(context);
+
+        return assert.isFulfilled(promise)
+          .then(function() {
+            var expected = {
+              acl: DEFAULT_ACL,
+              cacheControl: DEFAULT_CACHE_CONTROL,
+              bucket: BUCKET,
+              prefix: DEFAULT_PREFIX,
+              filePattern: DEFAULT_FILE_PATTERN,
+              filePath: DIST_DIR+'/'+DEFAULT_FILE_PATTERN,
+              gzippedFilePaths: [],
+              brotliCompressedFilePaths: ['index.html'],
               revisionKey: REVISION_KEY,
               allowOverwrite: false
             };

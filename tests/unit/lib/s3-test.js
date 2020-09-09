@@ -167,6 +167,16 @@ describe('s3', function() {
         });
     });
 
+    it('sets the Content-Encoding header to br when the index file is brotli compressed', function() {
+      options.brotliCompressedFilePaths = [filePattern];
+      var promise = subject.upload(options);
+
+      return assert.isFulfilled(promise)
+        .then(function() {
+          assert.equal(s3Params.ContentEncoding, 'br', 'contentEncoding is set to br');
+        });
+    });
+
     it('allows `prefix` option to be passed to customize upload-path', function() {
       var prefix = 'my-app';
 

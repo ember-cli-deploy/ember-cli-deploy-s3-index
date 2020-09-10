@@ -30,6 +30,9 @@ module.exports = {
         gzippedFiles: function(context) {
           return context.gzippedFiles || [];
         },
+        brotliCompressedFiles: function(context) {
+          return context.brotliCompressedFiles || [];
+        },
         allowOverwrite: false
       },
 
@@ -44,6 +47,7 @@ module.exports = {
         var distDir               = this.readConfig('distDir');
         var filePattern           = this.readConfig('filePattern');
         var gzippedFiles          = this.readConfig('gzippedFiles');
+        var brotliCompressedFiles = this.readConfig('brotliCompressedFiles');
         var allowOverwrite        = this.readConfig('allowOverwrite');
         var serverSideEncryption  = this.readConfig('serverSideEncryption');
         var filePath              = joinUriSegments(distDir, filePattern);
@@ -57,6 +61,7 @@ module.exports = {
           filePath: filePath,
           revisionKey: revisionKey,
           gzippedFilePaths: gzippedFiles,
+          brotliCompressedFilePaths: brotliCompressedFiles,
           allowOverwrite: allowOverwrite
         };
 

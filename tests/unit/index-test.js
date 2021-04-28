@@ -119,7 +119,8 @@ describe('s3-index plugin', function() {
               gzippedFilePaths: [],
               brotliCompressedFilePaths: [],
               revisionKey: REVISION_KEY,
-              allowOverwrite: false
+              allowOverwrite: false,
+              urlEncodeSourceObject: true
             };
 
             assert.deepEqual(s3Options, expected);
@@ -163,7 +164,8 @@ describe('s3-index plugin', function() {
               gzippedFilePaths: [],
               brotliCompressedFilePaths: [],
               revisionKey: REVISION_KEY,
-              allowOverwrite: false
+              allowOverwrite: false,
+              urlEncodeSourceObject: true
             };
 
             assert.deepEqual(s3Options, expected);
@@ -187,7 +189,8 @@ describe('s3-index plugin', function() {
               gzippedFilePaths: ['index.html'],
               brotliCompressedFilePaths: [],
               revisionKey: REVISION_KEY,
-              allowOverwrite: false
+              allowOverwrite: false,
+              urlEncodeSourceObject: true
             };
 
             assert.deepEqual(s3Options, expected);
@@ -211,7 +214,8 @@ describe('s3-index plugin', function() {
               gzippedFilePaths: [],
               brotliCompressedFilePaths: ['index.html'],
               revisionKey: REVISION_KEY,
-              allowOverwrite: false
+              allowOverwrite: false,
+              urlEncodeSourceObject: true
             };
 
             assert.deepEqual(s3Options, expected);

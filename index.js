@@ -17,6 +17,7 @@ module.exports = {
         prefix: '',
         acl: 'public-read',
         cacheControl: 'max-age=0, no-cache',
+        urlEncodeSourceObject: true,
         distDir: function(context) {
           return context.distDir;
         },
@@ -50,6 +51,7 @@ module.exports = {
         var brotliCompressedFiles = this.readConfig('brotliCompressedFiles');
         var allowOverwrite        = this.readConfig('allowOverwrite');
         var serverSideEncryption  = this.readConfig('serverSideEncryption');
+        var urlEncodeSourceObject = this.readConfig('urlEncodeSourceObject');
         var filePath              = joinUriSegments(distDir, filePattern);
 
         var options = {
@@ -62,7 +64,8 @@ module.exports = {
           revisionKey: revisionKey,
           gzippedFilePaths: gzippedFiles,
           brotliCompressedFilePaths: brotliCompressedFiles,
-          allowOverwrite: allowOverwrite
+          allowOverwrite: allowOverwrite,
+          urlEncodeSourceObject: urlEncodeSourceObject
         };
 
         if (serverSideEncryption) {

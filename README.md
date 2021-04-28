@@ -160,6 +160,16 @@ The Server-side encryption algorithm used when storing this object in S3 (e.g., 
   - "AES256"
   - "aws:kms"
 
+### urlEncodeSourceObject
+
+Controls if the `x-amz-copy-source` header is going to be be URL encoded.
+There is a known issue with DigitalOcean Spaces and older versions of CEPH
+that don't accept URL encoded copy sources.
+
+If you are using DigitalOcean spaces you need to set this setting to `false`.
+
+*Default:* `true`
+
 ### How do I activate a revision?
 
 A user can activate a revision by either:

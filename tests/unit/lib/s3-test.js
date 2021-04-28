@@ -77,7 +77,8 @@ describe('s3', function() {
         filePattern: filePattern,
         revisionKey: revisionKey,
         filePath: 'tests/unit/fixtures/test.html',
-        allowOverwrite: false
+        allowOverwrite: false,
+        urlEncodeSourceObject: true
       };
 
       s3Client.putObject = function(params, cb) {
@@ -372,7 +373,8 @@ describe('s3', function() {
         bucket: bucket,
         prefix: prefix,
         acl: acl,
-        filePattern: filePattern
+        filePattern: filePattern,
+        urlEncodeSourceObject: true,
       };
     });
 
@@ -426,6 +428,26 @@ describe('s3', function() {
           .then(function() {
             assert.equal(copyParams.Key, prefix+'/'+filePattern);
             assert.equal(copyParams.CopySource, bucket+'%2F'+prefix+'%2F'+filePattern+'%3A456');
+          });
+      });
+
+      it ('does not url encode the CopySource when urlEncodeSourceObject is disabled', function() {
+        options.urlEncodeSourceObject = false;
+        var prefix = 'my-app';
+        revisionsData = {
+          Contents: [
+            { Key: prefix+'/test.html:123', LastModified: new Date('September 27, 2015 01:00:00'), ETag: '123' },
+            { Key: prefix+'/test.html:456', LastModified: new Date('September 27, 2015 02:00:00') , ETag: '456' }
+          ]
+        };
+
+        options.prefix = prefix;
+        var promise    = subject.activate(options);
+
+        return assert.isFulfilled(promise)
+          .then(function() {
+            assert.equal(copyParams.Key, prefix+'/'+filePattern);
+            assert.equal(copyParams.CopySource, bucket+'/'+prefix+'/'+filePattern+':456');
           });
       });
 

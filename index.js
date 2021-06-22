@@ -85,6 +85,7 @@ module.exports = {
         var revisionKey           = this.readConfig('revisionKey');
         var filePattern           = this.readConfig('filePattern');
         var serverSideEncryption  = this.readConfig('serverSideEncryption');
+        var urlEncodeSourceObject = this.readConfig('urlEncodeSourceObject');
 
         var options = {
           bucket: bucket,
@@ -92,6 +93,7 @@ module.exports = {
           acl: acl,
           filePattern: filePattern,
           revisionKey: revisionKey,
+          urlEncodeSourceObject: urlEncodeSourceObject,
         };
 
         if (serverSideEncryption) {

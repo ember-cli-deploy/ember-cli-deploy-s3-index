@@ -236,7 +236,8 @@ describe('s3-index plugin', function() {
               bucket: BUCKET,
               prefix: DEFAULT_PREFIX,
               filePattern: DEFAULT_FILE_PATTERN,
-              revisionKey: '1234'
+              revisionKey: '1234',
+              urlEncodeSourceObject: true,
             };
 
             assert.deepEqual(s3Options, expected);

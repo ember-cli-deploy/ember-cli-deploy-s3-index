@@ -2,6 +2,13 @@
   "name": "ember-cli-deploy-s3-index",
   "version": "1.3.1",
   "description": "Ember CLI Deploy plugin to deploy ember-cli's bootstrap index file to S3.",
+  "keywords": [
+    "ember-addon",
+    "ember-cli-deploy-plugin"
+  ],
+  "repository": "https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index",
+  "license": "MIT",
+  "author": "",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -10,26 +17,6 @@
     "release": "release-it",
     "test": "node tests/runner.js && ./node_modules/.bin/eslint index.js lib/* tests/**/*.js"
   },
-  "repository": "https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index",
-  "engines": {
-    "node": "12.* || 14.* || >= 16"
-  },
-  "author": "",
-  "license": "MIT",
-  "devDependencies": {
-    "github": "^0.2.4",
-    "chai": "^4.2.0",
-    "chai-as-promised": "^7.1.1",
-    "ember-cli": "~3.18.0",
-    "eslint": "^7.0.0",
-    "glob": "^7.1.6",
-    "mocha": "^7.1.2",
-    "release-it": "*"
-  },
-  "keywords": [
-    "ember-addon",
-    "ember-cli-deploy-plugin"
-  ],
   "dependencies": {
     "aws-sdk": "^2.667.0",
     "core-object": "^3.0.0",
@@ -37,13 +24,35 @@
     "mime-types": "^2.1.27",
     "rsvp": "^4.8.5"
   },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "ember-cli": "~3.18.0",
+    "eslint": "^7.0.0",
+    "glob": "^7.1.6",
+    "mocha": "^7.1.2",
+    "release-it": "^14.2.1",
+    "release-it-lerna-changelog": "^3.1.0"
+  },
+  "engines": {
+    "node": "12.* || 14.* || >= 16"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "release-it": {
     "git": {
-      "changelog": "./bin/changelog",
       "requireCleanWorkingDir": false
     },
     "github": {
-      "release": true
+      "release": true,
+      "tokenRef": "GITHUB_AUTH"
+    },
+    "plugins": {
+      "release-it-lerna-changelog": {
+        "infile": "CHANGELOG.md",
+        "launchEditor": true
+      }
     }
   }
 }

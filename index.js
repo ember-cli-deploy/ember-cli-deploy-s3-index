@@ -107,6 +107,13 @@ module.exports = {
       },
 
       fetchRevisions: function(context) {
+        if (this.readConfig('disableFetchRevisions')) {
+          this.log('fetchRevisions - not fetching any revisions', { verbose: true });
+          return {
+            activations: []
+          };
+        }
+
         return this._list(context)
           .then(function(revisions) {
             return {

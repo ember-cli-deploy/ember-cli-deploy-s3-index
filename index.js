@@ -34,6 +34,26 @@ module.exports = {
         brotliCompressedFiles: function(context) {
           return context.brotliCompressedFiles || [];
         },
+        fetchRevisionsFunc: function(context) {
+          return function() {
+            return this._list(context)
+              .then(function(revisions) {
+                return {
+                  revisions: revisions
+                };
+              });
+            }
+        },
+        fetchInitialRevisionsFunc: function(context) {
+          return function() {
+            return this._list(context)
+              .then(function(revisions) {
+                return {
+                  initialRevisions: revisions
+                };
+              });
+          }
+        },
         allowOverwrite: false
       },
 
@@ -106,22 +126,12 @@ module.exports = {
         return s3.activate(options);
       },
 
-      fetchRevisions: function(context) {
-        return this._list(context)
-          .then(function(revisions) {
-            return {
-              revisions: revisions
-            };
-          });
+      fetchRevisions: function(/* context */) {
+        return this.readConfig('fetchRevisionsFunc').call(this);
       },
 
-      fetchInitialRevisions: function(context) {
-        return this._list(context)
-          .then(function(revisions) {
-            return {
-              initialRevisions: revisions
-            };
-          });
+      fetchInitialRevisions: function(/* context */) {
+        return this.readConfig('fetchInitialRevisionsFunc').call(this);
       },
 
       _list: function(/* context */) {

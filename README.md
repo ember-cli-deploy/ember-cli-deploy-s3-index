@@ -170,6 +170,38 @@ If you are using DigitalOcean spaces you need to set this setting to `false`.
 
 *Default:* `true`
 
+### fetchInitialRevisionsFunc
+
+The function that is called when `fetchInitialRevisions` is called on this plugin (e.g. when a user runs `ember deploy`).
+
+The main purpose of this function is to gather the "before" state of your s3 buckets so that you can produce a useful change or
+audit log.
+
+The default implementation of this will loop over all revisions found in S3. This can be slow if you have a long history of
+deployments. You may find that in your usages that you don't need to gather this information in this way so you may want to
+overwrite it to just return an empty array e.g.
+
+```js
+fetchInitialRevisionsFunc(/* context */) {
+  return () => ({ initialRevisions: [] });
+}
+````
+
+### fetchRevisionsFunc
+
+The function that is called when `fetchRevisions` is called on this plugin (e.g. when a user runs `ember deploy:list`).
+
+
+The default implementation of this will loop over all revisions found in S3. This can be slow if you have a long history of
+deployments. You may find that in your usages there are times that it's not ncessary to load this data so you may want to
+overwrite it to just return an empty array e.g.
+
+```js
+fetchRevisionsFunc(/* context */) {
+  return () => ({ revisions: [] });
+},
+````
+
 ### How do I activate a revision?
 
 A user can activate a revision by either:

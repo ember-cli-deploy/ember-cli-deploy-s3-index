@@ -112,7 +112,9 @@ module.exports = {
         this.log('preparing to activate `' + revisionKey + '`', { verbose: true });
 
         var s3 = new this.S3({ plugin: this });
-        return s3.activate(options).then(function() {
+        return s3.activate(options).then(() => {
+          this.log(`✔ Activated revision \`${revisionKey}\``, {});
+
           return {
             revisionData: {
               activatedRevisionKey: revisionKey

@@ -17,6 +17,8 @@
 - Kelvin Luck ([@vitch](https://github.com/vitch))
 - Luke Melia ([@lukemelia](https://github.com/lukemelia))
 
+## 2.0.0 There was no 2.0
+
 ## [v1.0.1](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/tree/v1.0.1)
 [Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/compare/v1.0.0...v1.0.1)
 

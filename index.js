@@ -34,6 +34,15 @@ module.exports = {
         brotliCompressedFiles: function(context) {
           return context.brotliCompressedFiles || [];
         },
+        didDeployMessage: function(context){
+          var revisionKey = context.revisionData && context.revisionData.revisionKey;
+          var activatedRevisionKey = context.revisionData && context.revisionData.activatedRevisionKey;
+          if (revisionKey && !activatedRevisionKey) {
+            return "Deployed but did not activate revision " + revisionKey + ". "
+                 + "To activate, run: "
+                 + "ember deploy:activate " + context.deployTarget + " --revision=" + revisionKey + "\n";
+          }
+        },
         allowOverwrite: false
       },
 
@@ -103,7 +112,22 @@ module.exports = {
         this.log('preparing to activate `' + revisionKey + '`', { verbose: true });
 
         var s3 = new this.S3({ plugin: this });
-        return s3.activate(options);
+        return s3.activate(options).then(() => {
+          this.log(`✔ Activated revision \`${revisionKey}\``, {});
+
+          return {
+            revisionData: {
+              activatedRevisionKey: revisionKey
+            }
+          }
+        });
+      },
+
+      didDeploy: function(/* context */){
+        var didDeployMessage = this.readConfig('didDeployMessage');
+        if (didDeployMessage) {
+          this.log(didDeployMessage);
+        }
       },
 
       fetchRevisions: function(context) {

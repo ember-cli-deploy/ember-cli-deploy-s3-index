@@ -61,6 +61,7 @@ describe('s3-index plugin', function() {
     });
 
     context = {
+      deployTarget: "qa",
       ui: mockUi,
 
       project: stubProject,
@@ -262,6 +263,15 @@ describe('s3-index plugin', function() {
             assert.equal(Object.prototype.hasOwnProperty.call(s3Options, 'serverSideEncryption'), false, 'serverSideEncryption filtered correctly');
           });
       });
+
+      it('displays activation message when revision is activated', function() {
+        var promise = plugin.activate(context);
+
+        return assert.isFulfilled(promise)
+          .then(function() {
+            assert.match(mockUi.messages.join("\n"),  new RegExp(`✔ Activated revision \`${REVISION_KEY}\``));
+          });
+      })
     });
 
     describe('#fetchInitialRevisions', function() {
@@ -313,6 +323,22 @@ describe('s3-index plugin', function() {
 
             assert.deepEqual(s3Options, expected);
           });
+      });
+    });
+
+    describe('#didDeploy', function() {
+      it("prints default message about lack of activation when revision has not been activated", function() {
+        plugin.upload = function() {};
+        plugin.activate = function() {};
+        plugin.beforeHook(context);
+        plugin.configure(context);
+        plugin.beforeHook(context);
+        plugin.didDeploy(context);
+
+        let message = mockUi.messages.join("\n")
+        assert.match(message, new RegExp(`Deployed but did not activate revision ${REVISION_KEY}`));
+        assert.match(message, /To activate, run/);
+        assert.match(message, new RegExp(`ember deploy:activate qa --revision=${REVISION_KEY}`));
       });
     });
   });

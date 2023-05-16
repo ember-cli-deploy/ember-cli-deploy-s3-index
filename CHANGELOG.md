@@ -1,5 +1,22 @@
 # Change Log
 
+
+## 3.0.0 (2023-05-16)
+
+#### :boom: Breaking Change
+* [#133](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/133) Update node version requirements and dependencies ([@lukemelia](https://github.com/lukemelia))
+* [#113](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/113) [breaking] Switch to Github Actions for CI ([@jrjohnson](https://github.com/jrjohnson))
+
+#### :rocket: Enhancement
+* [#130](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/130) Add support for didDeployMessage ([@jkeen](https://github.com/jkeen))
+* [#119](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/119) Optimise activation speed ([@vitch](https://github.com/vitch))
+
+#### Committers: 4
+- Jeff Keen ([@jkeen](https://github.com/jkeen))
+- Jon Johnson ([@jrjohnson](https://github.com/jrjohnson))
+- Kelvin Luck ([@vitch](https://github.com/vitch))
+- Luke Melia ([@lukemelia](https://github.com/lukemelia))
+
 ## [v1.0.1](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/tree/v1.0.1)
 [Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/compare/v1.0.0...v1.0.1)
 

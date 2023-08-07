@@ -18,7 +18,7 @@
     "test": "node tests/runner.js && ./node_modules/.bin/eslint index.js lib/* tests/**/*.js"
   },
   "dependencies": {
-    "aws-sdk": "^2.667.0",
+    "@aws-sdk/client-s3": "^3.385.0",
     "core-object": "^3.0.0",
     "ember-cli-deploy-plugin": "^0.2.9",
     "mime-types": "^2.1.27",

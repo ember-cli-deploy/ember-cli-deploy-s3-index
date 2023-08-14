@@ -35,7 +35,8 @@ describe('s3', function() {
       copyObject: function(params, cb) {
         copyParams = params;
         cb();
-      }
+      },
+      config: {}
     };
     mockUi = {
       messages: [],
@@ -222,7 +223,7 @@ describe('s3', function() {
       var promise = subject.upload(options);
       return assert.isFulfilled(promise)
         .then(function() {
-          assert.equal(require('aws-sdk').config.endpoint.host, endpoint, 'Endpoint in SDK is correct');
+          assert.equal(s3Client.config.endpoint, endpoint, 'Endpoint in SDK is correct');
           assert.equal(mockUi.messages[0], '- Using endpoint from config', 'Prefix is included in log output');
         });
     });

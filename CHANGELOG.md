@@ -1,10 +1,5 @@
 # Change Log
 
-## 4.0.0 (2023-08-18)
-
-#### :boom: Breaking Change
-* [#138](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/138) Upgrade AWS SDK Dependency to 3.0 ([@saravanak](https://github.com/saravanak))
-
 
 ## 3.0.0 (2023-05-16)
 

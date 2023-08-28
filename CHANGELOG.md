@@ -3,6 +3,8 @@
 
 ## 4.0.0-0 (2023-08-28)
 
+Pre-release to verify aws sdk update
+
 ## 3.0.0 (2023-05-16)
 
 #### :boom: Breaking Change

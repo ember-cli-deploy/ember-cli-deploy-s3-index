@@ -140,9 +140,9 @@ A flag to specify whether the revision should be overwritten if it already exist
 
 The underlying S3 library used to upload the files to S3. This allows the user to use the default upload client provided by this plugin but switch out the underlying library that is used to actually send the files.
 
-The client specified MUST implement functions called `getObject` and `putObject`.
+The client specified MUST implement functions called `getObject` and `putObject`. See [Using V2 API] (https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/welcome.html#using_v2_commands).
 
-*Default:* the default S3 library is `aws-sdk`
+*Default:* the default S3 library is `@aws-sdk/s3-client` (AWS JS SDK v3). Please use this addon version < 3.0.0 if you want to use AWS JS SDK 2.0 
 
 ### endpoint
 
@@ -334,4 +334,4 @@ If you'd like to be able to preview a deployed revision before activation, you'l
 [4]: https://github.com/ember-cli-deploy/ember-cli-deploy-build "ember-cli-deploy-build"
 [5]: https://github.com/ember-cli/ember-cli-deploy "ember-cli-deploy"
 [6]: https://github.com/ember-cli-deploy/ember-cli-deploy-revision-data "ember-cli-deploy-revision-data"
-[7]: https://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html#Setting_AWS_Credentials "Setting AWS Credentials"
+[7]: https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/loading-node-credentials-shared.html "Setting AWS Credentials"

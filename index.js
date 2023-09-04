@@ -66,7 +66,6 @@ module.exports = {
         var options = {
           bucket: bucket,
           prefix: prefix,
-          acl: acl,
           cacheControl: cacheControl,
           filePattern: filePattern,
           filePath: filePath,
@@ -76,6 +75,10 @@ module.exports = {
           allowOverwrite: allowOverwrite,
           urlEncodeSourceObject: urlEncodeSourceObject
         };
+
+        if (acl) {
+          options.acl = acl;
+        }
 
         if (serverSideEncryption) {
           options.serverSideEncryption = serverSideEncryption;
@@ -99,11 +102,14 @@ module.exports = {
         var options = {
           bucket: bucket,
           prefix: prefix,
-          acl: acl,
           filePattern: filePattern,
           revisionKey: revisionKey,
           urlEncodeSourceObject: urlEncodeSourceObject,
         };
+
+        if (acl) {
+          options.acl = acl;
+        }
 
         if (serverSideEncryption) {
           options.serverSideEncryption = serverSideEncryption;

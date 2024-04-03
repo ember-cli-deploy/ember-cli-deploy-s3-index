@@ -147,6 +147,16 @@ describe('s3-index plugin', function() {
           });
       });
 
+      it('filters acl when not defined', function() {
+        context.config['s3-index'].acl = false;
+        var promise = plugin.upload(context);
+
+        return assert.isFulfilled(promise)
+          .then(function() {
+            assert.equal(Object.prototype.hasOwnProperty.call(s3Options, 'acl'), false, 'acl filtered correctly');
+          });
+      });
+
       it('passes cacheControl options based on the cacheControl option to the s3-abstraction', function() {
         var cacheControl = 'max-age=3600';
         context.config['s3-index'].cacheControl = cacheControl;
@@ -261,6 +271,16 @@ describe('s3-index plugin', function() {
         return assert.isFulfilled(promise)
           .then(function() {
             assert.equal(Object.prototype.hasOwnProperty.call(s3Options, 'serverSideEncryption'), false, 'serverSideEncryption filtered correctly');
+          });
+      });
+
+      it('filters acl when not defined', function() {
+        context.config['s3-index'].acl = false;
+        var promise = plugin.upload(context);
+
+        return assert.isFulfilled(promise)
+          .then(function() {
+            assert.equal(Object.prototype.hasOwnProperty.call(s3Options, 'acl'), false, 'acl filtered correctly');
           });
       });
 

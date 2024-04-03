@@ -110,6 +110,8 @@ A file matching this pattern will be uploaded to S3. The active key in S3 will b
 
 The ACL to apply to the objects.
 
+Set to `false` to not apply any ACLs.
+
 *Default:* `'public-read'`
 
 ### cacheControl
@@ -151,7 +153,7 @@ or Openstack Swift
 
 If `endpoint` set the `region` option will be ignored.
 
-*Default:* `[region].s3.amazonaws.com` 
+*Default:* `[region].s3.amazonaws.com`
 
 
 ### serverSideEncryption

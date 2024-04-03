@@ -1,6 +1,17 @@
 # Change Log
 
 
+
+## 4.0.1 (2024-04-03)
+
+#### :rocket: Enhancement
+* Release changes in 4.0.0-0 prerelease.
+* [#134](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/134) Optionally ignore ACLs ([@khornberg](https://github.com/khornberg))
+
+#### Committers: 1
+- Kyle Hornberg ([@khornberg](https://github.com/khornberg))
+
+
 ## 4.0.0-0 (2023-08-28)
 
 Pre-release to verify aws sdk update

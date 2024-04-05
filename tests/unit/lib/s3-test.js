@@ -242,6 +242,15 @@ describe('s3', function() {
         });
     });
 
+    it('succeeds when revision key search returns no values', function() {
+      s3Client.listObjects = function(params, cb) {
+        cb(undefined, {});
+      };
+      var promise = subject.upload(options);
+
+      return assert.isFulfilled(promise);
+    });
+
     describe("when revisionKey was already uploaded", function() {
       beforeEach(function() {
         options.revisionKey = "123";

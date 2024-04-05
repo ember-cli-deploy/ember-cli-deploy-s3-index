@@ -2,6 +2,15 @@
 
 
 
+
+## 4.0.2 (2024-04-05)
+
+#### :bug: Bug Fix
+* [#142](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/142) Handle empty s3 response ([@jrjohnson](https://github.com/jrjohnson))
+
+#### Committers: 1
+- Jon Johnson ([@jrjohnson](https://github.com/jrjohnson))
+
 ## 4.0.1 (2024-04-03)
 
 #### :rocket: Enhancement

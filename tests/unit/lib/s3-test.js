@@ -27,9 +27,9 @@ describe('s3', function() {
         cb(undefined, revisionsData);
       },
 
-      headObject: function(params, cb) {
+      headObject: async function(params, cb) {
         headParams = params;
-        cb(undefined, currentData);
+        return currentData;
       },
 
       copyObject: function(params, cb) {

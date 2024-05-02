@@ -3,6 +3,15 @@
 
 
 
+
+## 4.0.3 (2024-05-02)
+
+#### :bug: Bug Fix
+* [#143](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/143) Handle NotFound S3 Response ([@jrjohnson](https://github.com/jrjohnson))
+
+#### Committers: 1
+- Jon Johnson ([@jrjohnson](https://github.com/jrjohnson))
+
 ## 4.0.2 (2024-04-05)
 
 #### :bug: Bug Fix

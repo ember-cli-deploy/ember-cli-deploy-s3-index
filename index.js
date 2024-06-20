@@ -137,6 +137,13 @@ module.exports = {
       },
 
       fetchRevisions: function(context) {
+        if (this.readConfig('disableFetchRevisions')) {
+          this.log('fetchRevisions - not fetching any revisions', { verbose: true });
+          return {
+            activations: []
+          };
+        }
+
         return this._list(context)
           .then(function(revisions) {
             return {
@@ -146,11 +153,35 @@ module.exports = {
       },
 
       fetchInitialRevisions: function(context) {
+
+        if (this.readConfig('fetchOnlyRelevantRevisions')) {
+          this.log('fetchInitialRevisions - fetching only enough revisions to find the active revision', { verbose: true });
+          return this._fetchActiveRevision();
+        }
+
         return this._list(context)
           .then(function(revisions) {
             return {
               initialRevisions: revisions
             };
+          });
+      },
+
+      _fetchActiveRevision: function() {
+        var bucket      = this.readConfig('bucket');
+        var prefix      = this.readConfig('prefix');
+        var filePattern = this.readConfig('filePattern');
+
+        var options = {
+          bucket: bucket,
+          prefix: prefix,
+          filePattern: filePattern,
+        };
+
+        var s3 = new this.S3({ plugin: this });
+        return s3.getActiveRevision(options)
+          .then((activeRevision) => {
+            return { initialRevisions: [activeRevision] };
           });
       },
 

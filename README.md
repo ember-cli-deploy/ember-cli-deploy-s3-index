@@ -76,6 +76,13 @@ The AWS secret for the user that has the ability to upload to the `bucket`. This
 
 *Default:* `undefined`
 
+### sessionToken
+
+The AWS session token for the user that has the ability to upload to the `bucket`. This may be required if you are using the [AWS Security Token Service][6].
+This requires both `accessKeyId` and `secretAccessKey` to be defined.
+
+*Default:* `undefined`
+
 ### profile
 
 The AWS profile as definied in ~/.aws/credentials. If this is left undefined, the normal [AWS SDK credential resolution][7] will take place.
@@ -155,6 +162,11 @@ If `endpoint` set the `region` option will be ignored.
 
 *Default:* `[region].s3.amazonaws.com`
 
+### proxy
+
+The network proxy url used when sending requests to S3.
+
+*Default:* `undefined`
 
 ### serverSideEncryption
 

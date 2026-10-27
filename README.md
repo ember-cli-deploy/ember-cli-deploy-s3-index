@@ -1,4 +1,4 @@
-# ember-cli-deploy-s3-index [![Build Status](https://travis-ci.org/ember-cli-deploy/ember-cli-deploy-s3-index.svg?branch=master)](https://travis-ci.org/ember-cli-deploy/ember-cli-deploy-s3-index) [![Build status](https://ci.appveyor.com/api/projects/status/iogkx02goxx6jsf3/branch/master?svg=true)](https://ci.appveyor.com/project/LevelbossMike/ember-cli-deploy-s3-index/branch/master)
+# ember-cli-deploy-s3-index
 
 
 > An ember-cli-deploy plugin to deploy ember-cli's bootstrap index file to [S3](https://aws.amazon.com/de/s3).

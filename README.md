@@ -144,6 +144,8 @@ The underlying S3 library used to upload the files to S3. This allows the user t
 
 The client specified MUST implement functions called `getObject` and `putObject`. See [Using V2 API] (https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/welcome.html#using_v2_commands).
 
+The plugin does not change configuration in a provided client. For example, if you set `endpoint`, you will need to give it to your custom client when you create it.
+
 *Default:* the default S3 library is `@aws-sdk/s3-client` (AWS JS SDK v3). Please use this addon version < 3.0.0 if you want to use AWS JS SDK 2.0 
 
 ### endpoint

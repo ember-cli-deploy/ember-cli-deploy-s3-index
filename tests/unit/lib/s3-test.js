@@ -1,7 +1,7 @@
 var assert = require('./../../helpers/assert');
 
 describe('s3', function() {
-  var S3, mockUi, s3Client, plugin, subject, options, listParams, headParams, copyParams, revisionsData, currentData;
+  var S3, mockUi, s3Client, plugin, subject, options, listParams, headParams, copyParams, revisionsData, currentData, requests, requestHandler;
 
   before(function() {
     S3 = require('../../../lib/s3');
@@ -37,6 +37,15 @@ describe('s3', function() {
         cb();
       },
       config: {}
+    };
+
+    // Lets a real SDK client sign requests without network access.
+    requests = [];
+    requestHandler = {
+      handle: async function(request) {
+        requests.push(request);
+        return { response: { statusCode: 200, headers: {}, body: Buffer.alloc(0) } };
+      }
     };
     mockUi = {
       messages: [],
@@ -208,24 +217,71 @@ describe('s3', function() {
     });
 
     it('allows `endpoint` option to be passed to customize storage', function() {
-      var endpoint = 'foo.bar.baz';
+      var endpoint = 'https://foo.bar.baz';
+      subject = new S3({
+        plugin: Object.assign(plugin, {
+          pluginConfig: {
+            region: 'us-east-1',
+            credentials: { accessKeyId: 'access-key-id', secretAccessKey: 'secret-access-key' },
+            requestHandler: requestHandler
+          },
+          readConfig: function(propertyName) {
+            if (propertyName === 'endpoint') {
+              return endpoint;
+            }
+          }
+        })
+      });
+      var promise = subject._client.headObject({ Bucket: 'bucket', Key: 'index.html' });
+      return assert.isFulfilled(promise)
+        .then(function() {
+          assert.equal(requests[0].protocol + '//' + requests[0].hostname, 'https://bucket.foo.bar.baz', 'Endpoint in SDK is correct');
+          assert.equal(mockUi.messages[0], '- Using endpoint from config', 'Prefix is included in log output');
+        });
+    });
+
+    it('allows `profile` option to be passed to customize credentials', function() {
+      var credentialsFile = process.env.AWS_SHARED_CREDENTIALS_FILE;
+      process.env.AWS_SHARED_CREDENTIALS_FILE = 'tests/unit/fixtures/credentials';
+      subject = new S3({
+        plugin: Object.assign(plugin, {
+          pluginConfig: { region: 'us-east-1', requestHandler: requestHandler },
+          readConfig: function(propertyName) {
+            if (propertyName === 'profile') {
+              return 'ember-cli-deploy-s3-index-test';
+            }
+          }
+        })
+      });
+      var promise = subject._client.headObject({ Bucket: 'bucket', Key: 'index.html' });
+      return assert.isFulfilled(promise)
+        .then(function() {
+          assert.include(requests[0].headers.authorization, 'Credential=profile-access-key-id/', 'Credentials in SDK are correct');
+          assert.equal(mockUi.messages[0], '- Using AWS profile from config', 'Profile is included in log output');
+        })
+        .finally(function() {
+          if (credentialsFile === undefined) {
+            delete process.env.AWS_SHARED_CREDENTIALS_FILE;
+          } else {
+            process.env.AWS_SHARED_CREDENTIALS_FILE = credentialsFile;
+          }
+        });
+    });
+
+    it('does not change a provided `s3Client` when `endpoint` is set', function() {
       subject = new S3({
         plugin: Object.assign(plugin, {
           readConfig: function(propertyName) {
             if (propertyName === 's3Client') {
               return s3Client;
             } else if (propertyName === 'endpoint') {
-              return endpoint;
+              return 'https://foo.bar.baz';
             }
           }
         })
       });
-      var promise = subject.upload(options);
-      return assert.isFulfilled(promise)
-        .then(function() {
-          assert.equal(s3Client.config.endpoint, endpoint, 'Endpoint in SDK is correct');
-          assert.equal(mockUi.messages[0], '- Using endpoint from config', 'Prefix is included in log output');
-        });
+      assert.strictEqual(subject._client, s3Client, 'Provided client is used');
+      assert.deepEqual(s3Client.config, {}, 'Provided client config is not changed');
     });
 
     it('allows `cacheControl` option to be passed to customize the used cache-control', function() {

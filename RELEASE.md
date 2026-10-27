@@ -24,20 +24,29 @@ When reviewing merged PR's the labels to be used are:
 * internal - Used for internal changes that still require a mention in the
   changelog/release notes.
 
+Unlabeled PRs are left out of the changelog.
+
 ## Release
 
 Once the prep work is completed, the actual release is straight forward:
 
-* First, ensure that you have installed your projects dependencies:
+* First, check out an up-to-date `master` and install the project's
+  dependencies:
 
 ```sh
+git checkout master
+git pull
 pnpm install
 ```
 
-* Second, ensure that you have obtained a
+* Second, ensure that you are logged in to npm as a user with publish access
+  to `ember-cli-deploy-s3-index`. `npm whoami` should print your username.
+
+* Third, ensure that you have obtained a
   [GitHub personal access token][generate-token] with the `repo` scope (no
   other permissions are needed). Make sure the token is available as the
-  `GITHUB_AUTH` environment variable.
+  `GITHUB_AUTH` environment variable. Both lerna-changelog and release-it's
+  GitHub release step read it from there.
 
   For instance:
 
@@ -50,11 +59,14 @@ pnpm install
 * And last (but not least 😁) do your release.
 
 ```sh
-npx release-it
+pnpm release
 ```
 
 [release-it](https://github.com/release-it/release-it/) manages the actual
-release process. It will prompt you to to choose the version number after which
-you will have the chance to hand tweak the changelog to be used (for the
-`CHANGELOG.md` and GitHub release), then `release-it` continues on to tagging,
-pushing the tag and commits, etc.
+release process. It will prompt you to choose the version number (or pass it
+directly, e.g. `pnpm release minor`) after which you will have the chance to
+hand tweak the changelog to be used (for the `CHANGELOG.md` and GitHub
+release), then `release-it` continues on to committing, tagging, pushing the
+tag and commits, publishing to npm, and creating the GitHub release.
+
+To preview a release without changing anything, run `pnpm release --dry-run`.

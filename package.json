@@ -26,14 +26,14 @@
     "rsvp": "^4.8.5"
   },
   "devDependencies": {
+    "@release-it-plugins/lerna-changelog": "^9.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "ember-cli": "~3.18.0",
     "eslint": "^7.0.0",
     "glob": "^7.1.6",
     "mocha": "^7.1.2",
-    "release-it": "^14.2.1",
-    "release-it-lerna-changelog": "^3.1.0"
+    "release-it": "^20.2.1"
   },
   "engines": {
     "node": "14.* || 16.* || 18.* || >= 20"
@@ -50,7 +50,7 @@
       "tokenRef": "GITHUB_AUTH"
     },
     "plugins": {
-      "release-it-lerna-changelog": {
+      "@release-it-plugins/lerna-changelog": {
         "infile": "CHANGELOG.md",
         "launchEditor": true
       }

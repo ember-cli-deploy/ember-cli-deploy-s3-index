@@ -4,6 +4,22 @@
 
 
 
+
+## 4.0.4 (2026-10-28)
+
+#### :bug: Bug Fix
+* [#145](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/145) fix: Give endpoint and credentials to the S3 client constructor ([@matthewhartstonge](https://github.com/matthewhartstonge))
+
+#### :house: Internal
+* [#155](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/155) Upgrade release-it to v20 and update RELEASE.md ([@lukemelia](https://github.com/lukemelia))
+* [#151](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/151) Switch from yarn to pnpm ([@lukemelia](https://github.com/lukemelia))
+* [#150](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/150) Remove AppVeyor config and dead CI badges ([@lukemelia](https://github.com/lukemelia))
+* [#146](https://github.com/ember-cli-deploy/ember-cli-deploy-s3-index/pull/146) Update CI: drop EOL Node versions, bump actions ([@lukemelia](https://github.com/lukemelia))
+
+#### Committers: 2
+- Luke Melia ([@lukemelia](https://github.com/lukemelia))
+- Matthew Hartstonge ([@matthewhartstonge](https://github.com/matthewhartstonge))
+
 ## 4.0.3 (2024-05-02)
 
 #### :bug: Bug Fix
